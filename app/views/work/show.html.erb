@@ -5,7 +5,7 @@
 
 	<div data-role="content" style="margin-bottom: 80px;">
 		<a href="/main" rel="external" data-role="button" data-icon="home" data-iconpos="notext">Principal</a>
-		<a href="<%= @work.id.to_s%>/load" rel="external" data-transition="pop" data-icon="gear" data-role="button" >Hoja de carga</a>
+		<a href="/loads/<%= @work.id.to_s%>" rel="external" data-transition="pop" data-icon="gear" data-role="button" >Hoja de carga</a>
 		<table>
 			<tr>
 				<td><b>Tipo de Avion:</b></td>
@@ -185,6 +185,11 @@
 		    <div><%= submit_tag 'Save' %></div>
 		</form>
 	</div><!-- /content -->
+	<script>
+		$('#fill1').live('pageshow',function(event, ui){
+	  		$('#nameB').focus();
+		});	
+	</script>
 </div>
 
 <div data-role="page" id="fill2">

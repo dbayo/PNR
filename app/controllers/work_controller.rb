@@ -21,6 +21,10 @@ class WorkController < ApplicationController
         @work.plane = params[:plane]
         @work.save
         
+        @load = Load.create
+        @load.work_id = @work.id
+        @load.save
+        
         respond_to do |format|
             format.html { redirect_to( work_path( @work.id ) ) }
         end      

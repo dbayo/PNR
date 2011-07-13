@@ -1,5 +1,4 @@
 PNR::Application.routes.draw do
-  resources :loads
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -59,11 +58,15 @@ PNR::Application.routes.draw do
   # match ':controller(/:action(/:id(.:format)))'
   resources :main
   resources :work
+  resources :loads
   
   match 'work/new' => 'work#new'
   match 'work/:id/update' => 'work#update'
   match 'work/:id/load' => 'work#load'
   match 'work/create' => 'work#create'
+  match 'loads/:id/cargar' => 'loads#cargar'
+  match 'loads/:id/modificar' => 'loads#modificar'
+  match 'loads/:id/update' => 'loads#update'
   
   root :to => "main#index"
 end

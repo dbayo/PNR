@@ -1,5 +1,16 @@
-<p id="notice"><%= notice %></p>
+<div data-role="page" id="newop">
 
+	<div data-role="header">
+		<h1>Hoja de carga</h1>
+	</div><!-- /header -->
 
-<%= link_to 'Edit', edit_load_path(@load) %> |
-<%= link_to 'Back', loads_path %>
+	<div style="margin-bottom: 80px;" data-role="content">
+		<p><a href="/main" rel="external" data-role="button" data-icon="home" data-iconpos="notext">Principal</a></p>
+		<p><a href="<%=@load.id%>/cargar" rel="external" data-transition="pop" data-icon="search" data-role="button" >Ver</a></p>
+		<p><a href="<%=@load.id%>/modificar" rel="external" data-transition="pop" data-icon="gear" data-role="button" >Modificar Hoja de Carga</a></p>
+	</div><!-- /content -->
+
+	<div style="position:absolute; bottom:0px;" data-role="footer">
+		<h4>creado por dbayo</h4>
+	</div><!-- /footer -->
+</div>
