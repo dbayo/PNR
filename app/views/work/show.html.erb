@@ -3,7 +3,7 @@
 		<h1>Operativa ID: <%= @work.id%></h1>
 	</div><!-- /header -->
 
-	<div data-role="content">
+	<div data-role="content" style="margin-bottom: 80px;">
 		<a href="/main" rel="external" data-role="button" data-icon="home" data-iconpos="notext">Principal</a>
 		<a href="<%= @work.id.to_s%>/load" rel="external" data-transition="pop" data-icon="gear" data-role="button" >Hoja de carga</a>
 		<table>
@@ -161,7 +161,7 @@
 		</div><!-- /navbar -->	
 	</div><!-- /content -->
 
-	<div style="position:absolute; bottom:0px;" data-role="footer">
+	<div style="position:absolute; bottom:0px;" data-role="footer" class="footer">
 		<div data-role="navbar">
 			<ul>
 				<li><a href="#T1" data-transition="slide" data-direction="reverse">Tren 1</a></li>
@@ -321,3 +321,15 @@
 		</form>
 	</div><!-- /content -->
 </div>
+
+<script>
+	$(document).ready(function() {
+		 $('#T1').live('swipeleft',function(event){
+		 	$.mobile.changePage( $("#T2"), { transition: "slide"} );
+	 		location.href="#T2";
+		 });
+		 $('#T2').live('swiperight',function(event){
+	 		location.href="#T1";
+		 });
+	});
+</script>
