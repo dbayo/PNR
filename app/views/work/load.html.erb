@@ -1,0 +1,340 @@
+<div data-role="page" id="T1">
+	<div data-role="header">
+		<h1>Operativa ID: <%= @work.id%></h1>
+	</div><!-- /header -->
+
+	<div data-role="content" style="margin-bottom: 80px;">
+		<a href="/main" rel="external" data-role="button" data-icon="home" data-iconpos="notext">Principal</a>
+		<a href="<%= @work.id.to_s%>/load" rel="external" data-transition="pop" data-icon="gear" data-role="button" >Hoja de carga</a>
+		<table>
+			<tr>
+				<td><b>Tipo de Avion:</b></td>
+				<td><%= @work.plane%></td>
+			</tr>
+			<tr>
+				<td><h3>Tren 1</h3></td>
+			</tr>
+		</table>
+		
+		<fieldset class="ui-grid-d">
+			<div class="ui-block-a">
+				<b style="text-align:center;" class="ui-li ui-li-divider ui-btn ui-bar-b ui-btn-down-undefined ui-btn-up-undefined">Posicion 1</b>
+			</div>
+			<div class="ui-block-b">
+				<b style="text-align:center;" class="ui-li ui-li-divider ui-btn ui-bar-b ui-btn-down-undefined ui-btn-up-undefined">Posicion 2</b>
+			</div>
+			<div class="ui-block-c">
+				<b style="text-align:center;" class="ui-li ui-li-divider ui-btn ui-bar-b ui-btn-down-undefined ui-btn-up-undefined">Posicion 3</b>
+			</div>
+			<div class="ui-block-b">
+				<b style="text-align:center;" class="ui-li ui-li-divider ui-btn ui-bar-b ui-btn-down-undefined ui-btn-up-undefined">Posicion 4</b>
+			</div>
+			<div class="ui-block-c">
+				<b style="text-align:center;" class="ui-li ui-li-divider ui-btn ui-bar-b ui-btn-down-undefined ui-btn-up-undefined">Posicion 5</b>
+			</div>
+		</fieldset>
+		<div data-role="navbar">
+			<ul class="posiciones">
+				<li><a href="#fill1" id="T1P1" data-rel="dialog">
+					<%= if @work.T1P1.nil? || @work.T1P1.strip.empty?
+							"Vacio"
+						else
+							@work.T1P1
+						end  %>
+				</a></li>
+				<li><a href="#fill2" id="T1P2" data-rel="dialog">
+					<%= if @work.T1P2.nil? || @work.T1P2.strip.empty?
+							"Vacio"
+						else
+							@work.T1P2
+						end  %>
+				</a></li>
+				<li><a href="#fill3" id="T1P3" data-rel="dialog">
+					<%= if @work.T1P3.nil? || @work.T1P3.strip.empty?
+							"Vacio"
+						else
+							@work.T1P3
+						end  %>
+				</a></li>
+				<li><a href="#fill4" id="T1P4" data-rel="dialog">
+					<%= if @work.T1P4.nil? || @work.T1P4.strip.empty?
+							"Vacio"
+						else
+							@work.T1P4
+						end  %>
+				</a></li>
+				<li><a href="#fill5" id="T1P5" data-rel="dialog">
+					<%= if @work.T1P5.nil? || @work.T1P5.strip.empty?
+							"Vacio"
+						else
+							@work.T1P5
+						end  %>
+				</a></li>
+			</ul>
+		</div><!-- /navbar -->
+	</div><!-- /content -->
+
+	<div style="position:absolute; bottom:0px;" data-role="footer">
+		<div data-role="navbar">
+			<ul>
+				<li><a href="#" class="ui-btn-active">Tren 1</a></li>
+				<li><a href="#T2" data-transition="slide">Tren 2</a></li>
+			</ul>
+		</div><!-- /navbar -->
+		<h4>creado por dbayo</h4>
+	</div><!-- /footer -->
+</div>
+
+<div data-role="page" id="T2">
+	<div data-role="header">
+		<h1>Operativa ID: <%= @work.id%></h1>
+	</div><!-- /header -->
+
+	<div data-role="content">
+		<a href="/main" rel="external" data-role="button" data-icon="home" data-iconpos="notext">Principal</a>
+		<a href="<%= @work.id.to_s%>/load" rel="external" data-transition="pop" data-icon="gear" data-role="button" >Hoja de carga</a>
+		<table>
+			<tr>
+				<td><b>Tipo de Avion:</b></td>
+				<td><%= @work.plane%></td>
+			</tr>
+			<tr>
+				<td><h3>Tren 2</h3></td>
+			</tr>
+		</table>
+		
+		<fieldset class="ui-grid-d">
+			<div class="ui-block-a">
+				<b style="text-align:center;" class="ui-li ui-li-divider ui-btn ui-bar-b ui-btn-down-undefined ui-btn-up-undefined">Posicion 1</b>
+			</div>
+			<div class="ui-block-b">
+				<b style="text-align:center;" class="ui-li ui-li-divider ui-btn ui-bar-b ui-btn-down-undefined ui-btn-up-undefined">Posicion 2</b>
+			</div>
+			<div class="ui-block-c">
+				<b style="text-align:center;" class="ui-li ui-li-divider ui-btn ui-bar-b ui-btn-down-undefined ui-btn-up-undefined">Posicion 3</b>
+			</div>
+			<div class="ui-block-b">
+				<b style="text-align:center;" class="ui-li ui-li-divider ui-btn ui-bar-b ui-btn-down-undefined ui-btn-up-undefined">Posicion 4</b>
+			</div>
+			<div class="ui-block-c">
+				<b style="text-align:center;" class="ui-li ui-li-divider ui-btn ui-bar-b ui-btn-down-undefined ui-btn-up-undefined">Posicion 5</b>
+			</div>
+		</fieldset>
+		<div data-role="navbar">
+			<ul class="posiciones">
+				<li><a href="#fill6" id="T2P1" data-rel="dialog">
+					<%= if @work.T2P1.nil? || @work.T2P1.strip.empty?
+							"Vacio"
+						else
+							@work.T2P1
+						end  %>
+				</a></li>
+				<li><a href="#fill7" id="T2P2" data-rel="dialog">
+					<%= if @work.T2P2.nil? || @work.T2P2.strip.empty?
+							"Vacio"
+						else
+							@work.T2P2
+						end  %>
+				</a></li>
+				<li><a href="#fill8" id="T2P3" data-rel="dialog">
+					<%= if @work.T2P3.nil? || @work.T2P3.strip.empty?
+							"Vacio"
+						else
+							@work.T2P3
+						end  %>
+				</a></li>
+				<li><a href="#fill9" id="T2P4" data-rel="dialog">
+					<%= if @work.T2P4.nil? || @work.T2P4.strip.empty?
+							"Vacio"
+						else
+							@work.T2P4
+						end  %>
+				</a></li>
+				<li><a href="#fill10" id="T2P5" data-rel="dialog">
+					<%= if @work.T2P5.nil? || @work.T2P5.strip.empty?
+							"Vacio"
+						else
+							@work.T2P5
+						end  %>
+				</a></li>
+			</ul>
+		</div><!-- /navbar -->	
+	</div><!-- /content -->
+
+	<div style="position:absolute; bottom:0px;" data-role="footer" class="footer">
+		<div data-role="navbar">
+			<ul>
+				<li><a href="#T1" data-transition="slide" data-direction="reverse">Tren 1</a></li>
+				<li><a href="#" class="ui-btn-active">Tren 2</a></li>
+			</ul>
+		</div><!-- /navbar -->
+		<h4>creado por dbayo</h4>
+	</div><!-- /footer -->
+</div>
+
+<div data-role="page" id="fill1">
+	<div data-role="header">
+		<h1>Operativa ID: <%= @work.id%></h1>
+	</div><!-- /header -->
+
+	<div data-role="content">
+		<form accept-charset="UTF-8" action="/work/<%=@work.id.to_s%>/update" method="post" data-ajax="false">
+			<input type="hidden" name="pos" id="pos" value="T1P1">
+		    <input type="text" name="nameA" id="nameA" value="AAA" style="width:30%;" />
+		    <input type="number" name="nameB" id="nameB" value="" style="width:60%;" /><br />
+		    <div><%= submit_tag 'Save' %></div>
+		</form>
+	</div><!-- /content -->
+	<script>
+		$('#fill1').live('pageshow',function(event, ui){
+	  		$('#nameB').focus();
+		});	
+	</script>
+</div>
+
+<div data-role="page" id="fill2">
+	<div data-role="header">
+		<h1>Operativa ID: <%= @work.id%></h1>
+	</div><!-- /header -->
+
+	<div data-role="content">
+		<form accept-charset="UTF-8" action="/work/<%=@work.id.to_s%>/update" method="post" data-ajax="false">
+			<input type="hidden" name="pos" id="pos" value="T1P2">
+		    <input type="text" name="nameA" id="nameA" value="AAA" style="width:30%;" />
+		    <input type="number" name="nameB" id="nameB" value="" style="width:60%;" /><br />
+		    <div><%= submit_tag 'Save' %></div>
+		</form>
+	</div><!-- /content -->
+</div>
+
+<div data-role="page" id="fill3">
+	<div data-role="header">
+		<h1>Operativa ID: <%= @work.id%></h1>
+	</div><!-- /header -->
+
+	<div data-role="content">
+		<form accept-charset="UTF-8" action="/work/<%=@work.id.to_s%>/update" method="post" data-ajax="false">
+			<input type="hidden" name="pos" id="pos" value="T1P3">
+		    <input type="text" name="nameA" id="nameA" value="AAA" style="width:30%;" />
+		    <input type="number" name="nameB" id="nameB" value="" style="width:60%;" /><br />
+		    <div><%= submit_tag 'Save' %></div>
+		</form>
+	</div><!-- /content -->
+</div>
+
+<div data-role="page" id="fill4">
+	<div data-role="header">
+		<h1>Operativa ID: <%= @work.id%></h1>
+	</div><!-- /header -->
+
+	<div data-role="content">
+		<form accept-charset="UTF-8" action="/work/<%=@work.id.to_s%>/update" method="post" data-ajax="false">
+			<input type="hidden" name="pos" id="pos" value="T1P4">
+		    <input type="text" name="nameA" id="nameA" value="AAA" style="width:30%;" />
+		    <input type="number" name="nameB" id="nameB" value="" style="width:60%;" /><br />
+		    <div><%= submit_tag 'Save' %></div>
+		</form>
+	</div><!-- /content -->
+</div>
+
+<div data-role="page" id="fill5">
+	<div data-role="header">
+		<h1>Operativa ID: <%= @work.id%></h1>
+	</div><!-- /header -->
+
+	<div data-role="content">
+		<form accept-charset="UTF-8" action="/work/<%=@work.id.to_s%>/update" method="post" data-ajax="false">
+			<input type="hidden" name="pos" id="pos" value="T1P5">
+		    <input type="text" name="nameA" id="nameA" value="AAA" style="width:30%;" />
+		    <input type="number" name="nameB" id="nameB" value="" style="width:60%;" /><br />
+		    <div><%= submit_tag 'Save' %></div>
+		</form>
+	</div><!-- /content -->
+</div>
+
+<div data-role="page" id="fill6">
+	<div data-role="header">
+		<h1>Operativa ID: <%= @work.id%></h1>
+	</div><!-- /header -->
+
+	<div data-role="content">
+		<form accept-charset="UTF-8" action="/work/<%=@work.id.to_s%>/update" method="post" data-ajax="false">
+			<input type="hidden" name="pos" id="pos" value="T2P1">
+		    <input type="text" name="nameA" id="nameA" value="AAA" style="width:30%;" />
+		    <input type="number" name="nameB" id="nameB" value="" style="width:60%;" /><br />
+		    <div><%= submit_tag 'Save' %></div>
+		</form>
+	</div><!-- /content -->
+</div>
+
+<div data-role="page" id="fill7">
+	<div data-role="header">
+		<h1>Operativa ID: <%= @work.id%></h1>
+	</div><!-- /header -->
+
+	<div data-role="content">
+		<form accept-charset="UTF-8" action="/work/<%=@work.id.to_s%>/update" method="post" data-ajax="false">
+			<input type="hidden" name="pos" id="pos" value="T2P2">
+		    <input type="text" name="nameA" id="nameA" value="AAA" style="width:30%;" />
+		    <input type="number" name="nameB" id="nameB" value="" style="width:60%;" /><br />
+		    <div><%= submit_tag 'Save' %></div>
+		</form>
+	</div><!-- /content -->
+</div>
+
+<div data-role="page" id="fill8">
+	<div data-role="header">
+		<h1>Operativa ID: <%= @work.id%></h1>
+	</div><!-- /header -->
+
+	<div data-role="content">
+		<form accept-charset="UTF-8" action="/work/<%=@work.id.to_s%>/update" method="post" data-ajax="false">
+			<input type="hidden" name="pos" id="pos" value="T2P3">
+		    <input type="text" name="nameA" id="nameA" value="AAA" style="width:30%;" />
+		    <input type="number" name="nameB" id="nameB" value="" style="width:60%;" /><br />
+		    <div><%= submit_tag 'Save' %></div>
+		</form>
+	</div><!-- /content -->
+</div>
+
+<div data-role="page" id="fill9">
+	<div data-role="header">
+		<h1>Operativa ID: <%= @work.id%></h1>
+	</div><!-- /header -->
+
+	<div data-role="content">
+		<form accept-charset="UTF-8" action="/work/<%=@work.id.to_s%>/update" method="post" data-ajax="false">
+			<input type="hidden" name="pos" id="pos" value="T2P4">
+		    <input type="text" name="nameA" id="nameA" value="AAA" style="width:30%;" />
+		    <input type="number" name="nameB" id="nameB" value="" style="width:60%;" /><br />
+		    <div><%= submit_tag 'Save' %></div>
+		</form>
+	</div><!-- /content -->
+</div>
+
+<div data-role="page" id="fill10">
+	<div data-role="header">
+		<h1>Operativa ID: <%= @work.id%></h1>
+	</div><!-- /header -->
+
+	<div data-role="content">
+		<form accept-charset="UTF-8" action="/work/<%=@work.id.to_s%>/update" method="post" data-ajax="false">
+			<input type="hidden" name="pos" id="pos" value="T2P5">
+		    <input type="text" name="nameA" id="nameA" value="AAA" style="width:30%;" />
+		    <input type="number" name="nameB" id="nameB" value="" style="width:60%;" /><br />
+		    <div><%= submit_tag 'Save' %></div>
+		</form>
+	</div><!-- /content -->
+</div>
+
+<script>
+	$(document).ready(function() {
+		 $('#T1').live('swipeleft',function(event){
+		 	$.mobile.changePage( $("#T2"), { transition: "slide"} );
+	 		location.href="#T2";
+		 });
+		 $('#T2').live('swiperight',function(event){
+	 		location.href="#T1";
+		 });
+	});
+</script>

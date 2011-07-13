@@ -1,0 +1,66 @@
+<div data-role="page" id="newop">
+
+	<div data-role="header">
+		<h1>Hoja de carga</h1>
+	</div><!-- /header -->
+
+	<div style="margin-bottom: 80px;" data-role="content">
+		<p><a href="/main" rel="external" data-role="button" data-icon="home" data-iconpos="notext">Principal</a><a href="/loads/<%= @load.id.to_s%>" rel="external" data-role="button" data-icon="gear" data-iconpos="notext">Principal</a></p>		
+		<form accept-charset="UTF-8" action="/loads/<%=@load.id.to_s%>/update" method="post" data-ajax="false">
+			<h1 style="text-align: center;">
+				<span style="float: left;"><input name="commit" type="submit" value="Back" onClick="document.getElementById('nextposition').value = '<%= (@position.to_i - 1).to_s%>';" rel="external" data-icon="arrow-l" data-iconpos="notext" data-role="button"></span>
+				<span>Posicion <%= @position %></span>
+				<span style="float: right;"><input name="commit" type="submit" value="Next" onClick="document.getElementById('nextposition').value = '<%= (@position.to_i + 1).to_s%>';" rel="external" data-transition="pop" data-icon="arrow-r" data-iconpos="notext" data-role="button"</span>
+			</h1>
+			<hr />
+			<input type="hidden" name="position" id="position" value="<%= @position %>">
+			<input type="hidden" name="nextposition" id="nextposition" value="<%= @position %>">
+			<fieldset class="ui-grid-a">
+				<div class="ui-block-a" style="width:40% !important;"><input type="text" name="nameA" id="nameA" value="AAA" maxlength="3" style="width:30%;" /></div>
+				<div class="ui-block-b" style="width:60% !important;"><input type="number" name="nameB" id="nameB" value="<%= @nameB.gsub(/^[a-zA-Z]*/,"").to_i %>" style="width:60%;" /></div>	   
+			</fieldset>	     
+		    <br />
+		    <div><input name="commit" type="submit" value="Save" class="ui-btn-hidden" aria-disabled="false"></div>
+		</form>
+	</div><!-- /content -->
+
+	<div style="position:absolute; bottom:0px;" data-role="footer">
+		<fieldset class="ui-grid-b">
+			<div class="ui-block-a">
+				<b style="text-align:center; margin-left: -3%; width: 100%;" class="ui-li ui-li-divider ui-btn ui-btn-down-undefined ui-btn-up-undefined">P7</b>
+			</div>
+			<div class="ui-block-b">
+				<b style="text-align:center; margin-left: -3%; width: 100%;" class="ui-li ui-li-divider ui-btn ui-btn-down-undefined ui-btn-up-undefined">P8</b>
+			</div>
+			<div class="ui-block-c">
+				<b style="text-align:center; margin-left: -3%; width: 100%;" class="ui-li ui-li-divider ui-btn ui-bar-b ui-btn-down-undefined ui-btn-up-undefined">P9</b>
+			</div>
+		</fieldset>
+		<div data-role="navbar">
+			<ul class="posiciones">
+				<li><a href="#fill1" id="P7" data-rel="dialog">
+					<%= if @load.P7.nil? || @load.P7.strip.empty?
+							"Vacio"
+						else
+							@load.P7
+						end  %>
+				</a></li>
+				<li><a href="#fill2" id="P8" data-rel="dialog">
+					<%= if @load.P8.nil? || @load.P8.strip.empty?
+							"Vacio"
+						else
+							@load.P8
+						end  %>
+				</a></li>
+				<li><a href="#fill3" id="P9" data-rel="dialog" class="ui-btn-active">
+					<%= if @load.P9.nil? || @load.P9.strip.empty?
+							"Vacio"
+						else
+							@load.P9
+						end  %>
+				</a></li>
+			</ul>
+		</div><!-- /navbar -->
+		<h4>creado por dbayo</h4>
+	</div><!-- /footer -->
+</div>
