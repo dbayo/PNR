@@ -1,0 +1,182 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>Impact Game</title>
+	<script type="text/javascript" charset="utf-8" src="http://localhost:58888/_appMobi/appmobi.js"></script> 
+	<script>
+		/* This sample function records an event ID, as well as an optional
+		set of name/value pairs as a query string to the statMobi Analytics
+		logs.*/
+		function addAnalyticsDataPoint(eventID,queryString)
+		{
+		   try
+		   {
+			   if (queryString==null) { queryString = ""; }
+			   AppMobi.analytics.logPageEvent("/application/" + eventID +
+		".event", queryString, "", "", 0, "index2.html");
+		   }
+		   catch(e) {}
+		}
+	</script>
+
+	<script type="text/javascript" >
+
+		/* This event handler captures the event thrown when an update becomes available while an application is running */
+		document.addEventListener("appMobi.device.update.available",onUpdateAvailable,false); 
+		function onUpdateAvailable(evt) {
+		  /* test to see if the event is appMobi.device.update.available */
+		  if (evt.type == "appMobi.device.update.available") {
+			/* there is an update available *while* the application is running - decide what to do */
+			if (confirm(evt.updateMessage)==true) {
+			  updateApplication();
+			}
+			else {
+			  updateApplicationLater();
+			}
+		  }
+		}
+
+		document.addEventListener("appMobi.device.ready",onDeviceReadyTestForUpdate,false);
+		function onDeviceReadyTestForUpdate(evt)
+		{
+		  /* appMobi.updateAvailable indicates whether or not an over the air update is available or not. */
+		  if (AppMobi.updateAvailable==true)
+		  {
+			//there is an application update available at startup
+			if (confirm(AppMobi.updateMessage)==true) {
+			  updateApplication();
+			}
+			else {
+			  updateApplicationLater();
+			}
+		  }
+		}
+
+		function updateApplication() {
+			/* installs an update if one is available */
+			AppMobi.device.installUpdate();
+		}
+			
+		function updateApplicationLater() { }
+
+	</script>	
+
+	<script type="text/javascript" language="javascript">
+	 
+	 var model="";
+	 function init()
+		{}
+
+		//*** Prevent Default Scrolling ******
+		preventDefaultScroll = function(event) {
+			// Prevent scrolling on this element
+			event.preventDefault();
+			window.scroll(0,0);
+			return false;
+		};
+		
+		window.document.addEventListener('touchmove', preventDefaultScroll, false);
+			
+		//*** Device Ready Code **********
+		//This event handler is fired once the AppMobi libraries are ready
+		//AppMobi is ready to roll
+		function onDeviceReady()
+		{	
+			//use AppMobi viewport
+			AppMobi.display.useViewport(320,480);
+			document.getElementsByTagName('body')[0].style.visibility="visible";
+			
+			//lock orientation
+			AppMobi.device.setRotateOrientation("landscape");
+			AppMobi.device.setAutoRotate(false);
+			
+			//manage power
+			AppMobi.device.managePower(true,false);
+			//alert(emulated);
+			
+		}
+		
+		//initial event handler to detect when appMobi is ready to roll
+		document.addEventListener("appMobi.device.ready",onDeviceReady,false); 
+
+	function gup( name )
+		{
+		  name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+		  var regexS = "[\\?&]"+name+"=([^&#]*)";
+		  var regex = new RegExp( regexS );
+		  var results = regex.exec( window.location.href );
+		  if( results == null )
+			return "";
+		  else
+			return results[1];
+		}
+	var lvl= gup("lvl");
+	// The lvl variable is found from the url. If it's not there, first level is started
+	
+	var emulated= gup("emulated");
+	// Global variables
+	var tween=1;      // When this is 0, the screen tween thats in the beginning of each level is finished and the player can now interact with the game
+	var posx=1440;	  // posx is how many px the camera starts fromt he left
+	var posy=442;	  // posy is how many px the camera starts from the top
+	
+	var pause=0;	  // If this equals 1, the game is pasued. 0, the game is resumed
+	var goaties=0;	  // The number of goats that have died
+	var speed=3;	  // The speed of the camera tween
+	var nX='';		  // The x position of the touch
+	var nY='';		  // The y position of the touch
+	var fired=0;	  // Bool to not let the player entity be fired twice
+	var fired2=0;	  // Bool to not let the cannon be fired twice
+	
+	 </script>
+	<style type="text/css">
+		html{
+			background-color: #000;
+			color: #fff;
+			font-family: helvetica, arial, sans-serif;
+			margin: 0;
+			padding: 0;
+			font-size: 12pt;
+		}
+		body {
+			background-color: #000;
+			color: #fff;
+			font-family: helvetica, arial, sans-serif;
+			margin: 0;
+			padding: 0;
+			font-size: 12pt;
+			visibility:hidden;
+		}
+		#canvas {
+			position: absolute;
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			margin: auto;
+			border: 1px solid #555;
+		}
+		 /* Prevent copy paste for all elements except text fields */
+   *  { -webkit-user-select:none; -webkit-tap-highlight-color:rgba(255, 255, 255, 0); }
+   input, textarea  { -webkit-user-select:text; }
+ 
+	</style>
+
+	<script type="text/javascript" src="game.min.js"></script>
+</head>
+<body style="background:#fff;"  >
+	
+    <div style='z-index:20;color:black;position:absolute;bottom:0px;width:66px;right:10px;height:66px;background:url(media/Button40_Pause.png);' onclick="if(pause==1){pause=0;document.getElementById('Menu').style.display='none';ig.system.startRunLoop.call(ig.system)}else{pause=1;addAnalyticsDataPoint('gamePaused');document.getElementById('Menu').style.display='block';ig.system.stopRunLoop.call(ig.system)}"id="pause"></div>
+    <div id="fire"onclick="addAnalyticsDataPoint('FiredCannon');"style='z-index:20;color:black;position:absolute;bottom:0px;left:10px;width:66px;height:66px;background:url(media/Button40_Fire.png);' ></div>
+	
+	<div style='z-index:20;color:black;position:absolute;top:0px;left:85px;width:302px;height:294px;background:url(media/Background55_Advance.png);display:none;' id="Next">
+	<div onclick="addAnalyticsDataPoint('BeatLvl');lvl++;window.location='index2.html?lvl='+lvl+'&emulated='+emulated" style="position:relative;background:url(media/Advance_Button55_Next.png);left:30px;top:170px;height:92px;width:238px;"></div>
+	</div>
+	<div style='z-index:20;color:black;position:absolute;top:-10px;left:55px;width:353px;height:313px;background:url(media/Background55_Paused.png);display:none;' id="Menu">
+	
+	<div onclick="addAnalyticsDataPoint('MainMenu');window.location='index.html?splash=1'" style="position:relative;background:url(media/Pause_Button55_Menu.png);left:70px;top:110px;width:157px;height:60px;"></div>
+	<div onclick="window.location=window.location.href;addAnalyticsDataPoint('Levelretry');" style="position:relative;background:url(media/Pause_Button55_Retry.png);left:130px;top:95px;width:165px;height:60px;"></div>
+	<div style="position:relative;background:url(media/Pause_Button55_Resume.png);left:70px;top:80px;width:125px;height:59px;" onclick="if(pause==1){pause=0;document.getElementById('Menu').style.display='none';ig.system.startRunLoop.call(ig.system)}else{pause=1;document.getElementById('Menu').style.display='block';addAnalyticsDataPoint('gamePaused');ig.system.stopRunLoop.call(ig.system)}"id="pause2"></div>
+	</div>
+	<canvas id="canvas"></canvas>
+</body>
+</html>

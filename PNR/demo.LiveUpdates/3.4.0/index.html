@@ -1,0 +1,359 @@
+<!DOCTYPE html><!--HTML5 doctype-->
+<html>
+<!--
+Copyright (c) 2011 appMobi
+
+ Permission is hereby granted, free of charge, to any person
+ obtaining a copy of this software and associated documentation
+ files (the "Software"), to deal in the Software without
+ restriction, including without limitation the rights to use,
+ copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the
+ Software is furnished to do so, subject to the following
+ conditions:
+
+ The above copyright notice and this permission notice shall be
+ included in all copies or substantial portions of the Software.
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ OTHER DEALINGS IN THE SOFTWARE.
+-->
+<head>
+<title>Over the Air Updates - Sample Application</title>
+   
+    <!-- be sure to include the appMobi javascript API library -->
+    <script type="text/javascript" charset="utf-8" src="http://localhost:58888/_appMobi/appmobi.js"></script> 
+  
+    <!-- add the webkit-user-select style to prevent selecting on the device -->
+    <style type="text/css">
+        *  { -webkit-user-select:none; -webkit-tap-highlight-color:rgba(255, 255, 255, 0); }
+        input, textarea  { -webkit-user-select:text; } 
+        body {
+            background-color:#000;
+            color:#fff;
+            font-family:Arial;
+            font-size:48pt;
+            margin:0px;
+            padding:0px;
+            visibility:hidden;  /* Only show the body once the sizing is done */
+        }
+        .marquee 
+        {
+            white-space:nowrap;
+            width:100%;
+            vertical-align:middle;
+            background-color:Transparent;
+            overflow: hidden;
+            overflow-x:-webkit-marquee;
+            -webkit-marquee-direction: backwards;
+            -webkit-marquee-speed: normal;
+            -webkit-marquee-increment: medium;
+            -webkit-marquee-repetition: infinite;	
+        }
+    </style>
+        
+    <script type="text/javascript" type="text/javascript">
+    //Set global variables here
+    
+    //This text illustrates that the update changes the application
+    var strChangeText = "This just in: appMobi Live Updates can be used to change an application even after it has been installed from a device's application store!";
+    
+    //This is a numeric application version to increment before for each update
+    var applicationVersion = 1;  
+    
+    //This funciton is run immediately when the page loads.  Please note that appMobi functions are not
+    //  available until onDeviceReady is triggered.
+    function init()
+    {
+        document.getElementById("divTextBalloon").innerHTML = strChangeText;
+    }
+
+    //*** Prevent Default Scrolling ******
+    //Use this code to prevent the screen from scrolling 
+    preventDefaultScroll = function(event) {
+        // Prevent scrolling on this element
+        event.preventDefault();
+        window.scroll(0,0);
+        return false;
+    };
+    window.document.addEventListener('touchmove', preventDefaultScroll, false);
+        
+    //*** Device Ready Code **********
+    //This event handler is fired once the AppMobi libraries are ready
+    //AppMobi is ready to roll
+    function onDeviceReady()
+    {
+        //use AppMobi.display.viewport to size the application to the appropriate width regardless of the device used
+        AppMobi.display.useViewport(768,1024);
+        
+        //once the sizing is done, make the HTML body visible
+        document.getElementById("bodyTag").style.visibility="visible";
+    
+        //use AppMobi.device.setRotateOrientation to rotate the application to a certain orientation
+        AppMobi.device.setRotateOrientation("portrait");
+        
+        //use AppMobi.device.setAutoRotate to lock the rotation
+        AppMobi.device.setAutoRotate(false);
+        
+        //use AppMobi.device.managePower to keep the device from shutting off unexpectedly
+        AppMobi.device.managePower(true,false);
+		
+		//hide splash screen
+		AppMobi.device.hideSplashScreen();
+        
+        /* OVER THE AIR UPDATE CODE*/
+
+        if (AppMobi.cache.getCookie("applicationVersion") == null)
+        {
+            //this is the initial installation
+            AppMobi.cache.setCookie("applicationVersion",applicationVersion,-1);
+        }
+        else if (AppMobi.cache.getCookie("applicationVersion") != applicationVersion)
+        {
+            //the current application version is different from the previous one
+            var previousVersion = convertStringToNumber(AppMobi.cache.getCookie("applicationVersion"));
+            
+            if (previousVersion < applicationVersion)
+            {
+                //the previous version is lower than the application version installed with this code 
+                AppMobi.notification.alert("Application Updated Successfully");
+                
+                //save the cookie for the next time the application starts
+                AppMobi.cache.setCookie("applicationVersion",applicationVersion,-1);
+            }
+            
+        }
+
+        //appMobi.updateAvailable indicates whether or not an over the air update is available or not.
+        if (AppMobi.updateAvailable==true)
+        {
+            //there is an application update available at startup
+            doUpdateAvailable(AppMobi.updateMessage);
+        }
+
+
+    }
+    
+    //initial event handler to detect when appMobi is ready to go
+    document.addEventListener("appMobi.device.ready",onDeviceReady,false); 
+      
+      
+    /* OVER THE AIR UPDATE CODE */
+        
+    //this event handler captures the event thrown when an update becomes available while an application is running
+    document.addEventListener("appMobi.device.update.available",onUpdateAvailable,false); 
+
+    function onUpdateAvailable(evt)
+    {
+        if (evt.type == "appMobi.device.update.available")
+        {
+            //there is an update available *while* the application is running - just warn the user
+            warnUpdateAvailable(evt.updateMessage); 
+        }
+    }
+
+    function updateApplication()
+    {
+        // installs an update if one is available
+        AppMobi.device.installUpdate();
+    }
+        
+    function updateApplicationLater()
+    {
+        //add any code to indicate that the update has been postponed
+    }
+
+
+    function warnUpdateAvailable(strUpdateMessage)
+    {
+        if (strUpdateMessage == null)
+        {
+            strUpdateMessage="Live Update Available";
+        } 
+        strUpdateMessage += " - Touch Here To Update Application";
+        document.getElementById("divFooter").innerHTML=strUpdateMessage;
+        document.getElementById("divFooter").className="marquee";
+        document.getElementById("divFooter").addEventListener("click",updateApplication,false);
+    }
+
+    function doUpdateAvailable(strUpdateMessage)
+    {
+        if (strUpdateMessage == null)
+        {
+            strUpdateMessage="Would you like to update this application?";
+        }        
+
+        //there is an update available - ask the user whether they would like to install or not
+        confirmationBox_show(strUpdateMessage,"Application Update Available","Yes, update now","I'll update later","updateApplication()","updateApplicationLater()");
+
+        //Alternately, the developer could choose to force the update at this point 
+        //by calling "AppMobi.device.installUpdate();".
+    }
+
+
+    function convertStringToNumber(string)
+    {
+        try
+        {
+            return string/1;
+        }
+        catch(e)
+        {
+            return 0;
+        }
+    }
+    
+
+    
+    </script>
+    
+<script>
+/* This snippet of code is a starting point for handling pushMobi Push Messages in 
+an appMobi application. Drop this javascript code into your application's <head>
+HTML tag to allow a user to log in and test basic push text messaging. */
+
+/*
+
+// Register for messages as soon as appMobi is loaded 
+document.addEventListener("appMobi.device.ready",registerForMessages,false);
+
+// This function will add this device to the push messaging system the first time it runs on a device 
+function registerForMessages() {
+    //Get the unique identifier of this device
+    myUserID=AppMobi.device.uuid;
+    
+    //Register the appMobi.notification.push.enable event
+    document.addEventListener("appMobi.notification.push.enable",notificationsRegistered,false);
+    
+    //If this device is already registered, just check for new notifications
+    if(AppMobi.cache.getCookie("username")===undefined)
+    {
+        try {
+			//unremark this code to register this application for push messages
+            var chosenUsername = prompt("Choose a username for push messaging", AppMobi.device.uuid);
+            var chosenPassword = prompt("Choose a password for push messaging", "password");
+            var chosenEmail    = prompt("Enter an email address for account confirmation","");
+            
+            AppMobi.cache.setCookie("username",chosenUsername);
+            AppMobi.cache.setCookie("password",chosenPassword);
+            AppMobi.cache.setCookie("email",chosenEmail);
+            AppMobi.notification.addPushUser(chosenUsername,chosenPassword,chosenEmail); 
+	    } catch(e){ alert("error adding push user: " + e.message); }
+    }
+    else
+    {
+        AppMobi.notification.checkPushUser(AppMobi.cache.getCookie("username"),AppMobi.cache.getCookie("password"));
+    }
+}
+      
+
+var clearList=[];
+
+// Callback for handling notifications 
+function updateNotifications(event)
+{
+   try
+   {
+        var myNotifications=AppMobi.notification.getNotificationList();
+        var len=myNotifications.length;
+	    
+        for(i=0;i<len;i++)
+        {
+            //get the pushMobi message data
+            msgObj=AppMobi.notification.getNotificationData(myNotifications[i]);
+
+            //display the pushMobi message as a notification if there is no data
+            if (msgObj.richhtml === undefined && msgObj.richurl === undefined)
+            {
+                AppMobi.notification.alert(msgObj.msg,"pushMobi Message","OK");
+            	 //remove the message from the server
+            	AppMobi.notification.readPushNotifications(msgObj.id);  
+            }
+            else
+            {
+                AppMobi.notification.showRichPushViewer(msgObj.id, 10, 10, 10, 10, 80, 80);
+            }
+
+
+        }
+    }
+    catch(e) { alert("error in updateNotifications: " + e.message); }
+}
+
+  document.addEventListener("appMobi.notification.push.rich.close",richViewerClosed,false);
+
+
+function richViewerClosed(event)
+{
+ 	//remove the message from the server
+    AppMobi.notification.readPushNotifications(event.id);  
+}
+
+var didcheckuser = false;
+function notificationsRegistered(event)
+{
+    if(event.success===false)
+    {
+    	if( didcheckuser == false )
+    	{
+            AppMobi.notification.checkPushUser(AppMobi.device.uuid,"password");
+            didcheckuser = true;
+        }
+        else
+        {
+        	alert("There was an error adding push notifications "+event.message);
+        }
+        return;
+    }
+
+    document.addEventListener('appMobi.notification.push.receive',updateNotifications,false);
+    document.addEventListener("appMobi.notification.push.refresh",updateNotifications,false);
+
+
+    updateNotifications();
+}
+
+*/
+
+</script>
+	<script type="text/javascript">
+	/* This sample function records an event ID, as well as an optional
+	set of name/value pairs as a query string to the statMobi Analytics
+	logs.*/
+	function addAnalyticsDataPoint(eventID,queryString)
+	{
+	   try
+	   {
+		   if (queryString==null) { queryString = ""; }
+		   AppMobi.analytics.logPageEvent("/application/" + eventID +
+	".event", queryString, "", "", 0, "index.html");
+	   }
+	   catch(e) {}
+	}
+	/* Drop this javascript function into the <head> element of your
+	application's index.html page and call it everywhere you want to
+	record an analytics event. It takes two parameters. The first is an
+	event identifier string and the second is an optional key/value query
+	string parameter. */
+	</script>
+		
+</head>
+
+
+<body id="bodyTag" onload="init();">
+<div id="divAnchor" style="position:absolute;top:50px;left:0px;">
+    <img src="anchorman.png" width="768" height="429" style="position:absolute;top:270px;left:0px;" />
+    <div id="divTextBalloon" style="position:absolute;top:0px;left:50px;height:300px;width:650px;background-color:White;-moz-border-radius: 10px;-webkit-border-radius:10px;color:Black;font-size:32pt;padding:10px;"></div>
+    <img src="anchorHead.png" width="768" height="429" style="position:absolute;top:270px;left:0px;" />
+    <div id="divFooter" style="position:absolute;top:575px;left:0px;height:80px;width:768px;background-color:Red;color:White;text-align:center;">Live Update</div>
+</div>
+
+</body>
+<script type="text/javascript" src="confirmationBox.js"></script>
+</html>

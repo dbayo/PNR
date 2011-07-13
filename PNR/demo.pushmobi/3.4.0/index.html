@@ -1,0 +1,244 @@
+<!DOCTYPE html><!--HTML5 doctype-->
+<html>
+<head>
+<title>pushMobi</title>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8"> 
+<style type="text/css">
+    /* Prevent copy paste for all elements except text fields */
+    *  { -webkit-user-select:none; -webkit-tap-highlight-color:rgba(255, 255, 255, 0); }
+    input, textarea  { -webkit-user-select:text; }
+    
+    /* Set up the page with a default background image */
+    body {
+        background-color:#fff;
+        color:#000;
+        font-family:Arial;
+        font-size:48pt;
+        margin:0px;padding:0px;
+        background-image:url('images/background.jpg');
+    }
+    button 
+    { font-size:48pt; }
+	#spnShirtMessage {
+		position:absolute;background-color:transparent;top:200px;left:215px;text-align:center; width:320px;height:350px;overflow:hidden;border-radius:10px;color:#000;
+		font-family:Arial; font-size:32pt;
+	}
+</style>
+<script type="text/javascript" charset="utf-8" src="http://localhost:58888/_appMobi/appmobi.js"></script> 
+<script type="text/javascript">
+
+//timeout for the status message at the bottom of the application
+var msgTimeout;
+
+/* This function runs once the page is loaded, but appMobi is not yet active */
+var init = function(){
+
+};
+window.addEventListener("load",init,false);  
+
+/* This code prevents users from dragging the page */
+var preventDefaultScroll = function(event) {
+    event.preventDefault();
+    window.scroll(0,0);
+    return false;
+};
+window.document.addEventListener('touchmove', preventDefaultScroll, false);
+
+/* This code will run as soon as appMobi is completely loaded */
+var onDeviceReady=function(){
+    AppMobi.display.useViewport(768,1024);
+	
+	//lock the orientation of the application
+	AppMobi.device.setRotateOrientation("portrait");
+	AppMobi.device.setAutoRotate(false);
+	
+	AppMobi.device.hideSplashScreen();
+
+	if (AppMobi.device.platform == "Android" && AppMobi.device.osversion == "2.1")
+	{
+		AppMobi.notification.alert("The appMobi push messaging commands require Android OS 2.2 or higher","pushMobi Requirement","OK");
+	}
+	else
+	{
+
+		//update the t-shirt message to be the last push message received
+		if (AppMobi.cache.getCookie("tshirtMessage") != undefined)
+		{
+			document.getElementById("spnShirtMessage").innerHTML = AppMobi.cache.getCookie("tshirtMessage");
+		}
+		else
+		{
+			document.getElementById("spnShirtMessage").innerHTML = "Your push message here!";
+		}
+		
+		//register the application to receive push messages
+		registerForMessages();
+	
+	}
+};
+
+//This event handler captures the event indicating that appMobi is completely loaded
+document.addEventListener("appMobi.device.ready",onDeviceReady,false);    
+
+
+    var didcheckuser = false;
+	var chosenUsername = "testUser";
+	var chosenPassword = "password";
+	var chosenEmail = "recovery_email@email.com";
+	
+	//register this app/user with the push messaging system.
+	//This should only happen once per install
+	function registerForMessages() {
+		chosenUsername = AppMobi.device.uuid; //set a default unique username for the purposes of push
+		
+		if (chosenUsername.indexOf("emulated") != -1)
+		{
+			AppMobi.cache.removeCookie("pushmobi_username") 
+			chosenUsername = rnd(99999);
+		}
+
+		//If this device is already registered, just check for new notifications
+		if (AppMobi.cache.getCookie("pushmobi_username") == undefined) {
+		
+			try {
+				AppMobi.notification.addPushUser(chosenUsername, chosenPassword, chosenEmail);
+			} catch (e) { alert("error adding push user: " + e.message); }
+		}
+	}
+
+    /* This callback let's you know whether the app has successfully registered to 
+    recieve push notifications. This should only happen once per install (note, though, that if you
+    ask the system whether the user/app is registered for push via checkPushUser, or if you attempt
+    to reregister the app/user with the system, this even will fire again */
+    function notificationsRegistered(event) {
+        if (event.success == false) {
+			if (didcheckuser == false) {
+                AppMobi.notification.checkPushUser(chosenUsername, chosenPassword);
+                didcheckuser = true;
+            }
+            else {
+                alert("There was an error adding push notifications " + event.message);
+            }
+            return;
+        }
+        else {
+            //if the app successfully registered, it's good to save the user information
+            //for pulling the right the messages that belong to this user. Then you
+            //can prevent unnecessarily trying to re-register the app/user
+            AppMobi.cache.setCookie("pushmobi_username", chosenUsername,-1);
+            AppMobi.cache.setCookie("pushmobi_password", chosenPassword,-1);
+            AppMobi.cache.setCookie("pushmobi_email", chosenEmail,-1);
+        }
+
+        updateNotifications();
+    }
+
+    var clearList = [];
+
+    /* Callback for handling notifications */
+    function updateNotifications(event) {
+        try {
+            var myNotifications = AppMobi.notification.getNotificationList();
+            var len = myNotifications.length;
+
+            for (i = 0; i < len; i++) {
+                //get the pushMobi message data
+                msgObj = AppMobi.notification.getNotificationData(myNotifications[i]);
+
+                //display the pushMobi message as a notification if there is no data
+                if (msgObj.isRich == false) { //Is this a simple text push message?
+
+					//update the style of the t-shirt text
+					if (msgObj.data != "")
+					{ document.getElementById("spnShirtMessage").style.cssText=msgObj.data; }
+					console.log(document.getElementById("spnShirtMessage").style.cssText);
+				
+					//print the message on the t-shirt
+					document.getElementById("spnShirtMessage").innerHTML = msgObj.msg;
+					AppMobi.cache.setCookie("tshirtMessage", msgObj.msg,-1);
+						
+					//message received
+					AppMobi.player.startAudio("images/small-bell-ring-01.mp3");
+					document.getElementById("spnMessage").innerHTML = "Push Message Received";
+					
+					//Hide the status message after 6 seconds
+					clearTimeout(msgTimeout);
+					msgTimeout=setTimeout("hideMessage();",6000);
+
+                    //remove the message from the server otherwise the app will 
+                    //think it has more messages waiting for it
+                    AppMobi.notification.deletePushNotifications(msgObj.id);
+                }
+                else { //show rich push messages in the rich viewer
+                    AppMobi.notification.showRichPushViewer(msgObj.id, 10, 10, 10, 10, 80, 80);
+                    break; // only one rich message at a time, will resume after richViewerClosed
+                }
+            }
+        }
+        catch (e) { alert("error in updateNotifications: " + e.message); }
+    }
+
+    //event that let's you know that the user's app is enabled to receive push
+    document.addEventListener("appMobi.notification.push.enable", notificationsRegistered, false);
+    //register to be notified when a push message is received by the app
+    document.addEventListener('appMobi.notification.push.receive', updateNotifications, false);
+    //Two rich push msgs, can't be viewed at the same time
+    //register to be notified when a rich push message is closed (so that you can launch the next one)
+    document.addEventListener("appMobi.notification.push.rich.close", richViewerClosed, false);
+
+    function richViewerClosed(event) {
+        //remove the message from the server
+        AppMobi.notification.deletePushNotifications(event.id);
+
+        // resume viewing push messages
+        updateNotifications();
+    }
+	
+	function sendPushMessage() {
+		//play a click
+		AppMobi.player.startAudio("images/click-5.mp3");
+		
+		//send the notification FROM the application TO the current user of the application
+		AppMobi.notification.sendPushNotification(chosenUsername,document.getElementById("txtMessage").value,"111");
+		
+		//clear the edit field and update the status message
+		document.getElementById("txtMessage").value = "";
+		document.getElementById("spnMessage").innerHTML = "Push Message Sent";
+		
+		//clear the status message after six seconds
+		clearTimeout(msgTimeout);
+		msgTimeout=setTimeout("hideMessage();",6000);
+	}
+	
+	//clear the status message
+	function hideMessage()
+	{
+		document.getElementById("spnMessage").innerHTML = "";
+	}
+	
+	//random number generator
+	function rnd(i)
+	{
+		return Math.floor(Math.random()*i);
+	}
+
+</script>
+
+</head>
+<body>
+ 
+<div style="text-align:center;">
+	<img src="images/T-ShirtGuy.jpg" style="border:solid 5px #000;" />
+	<span id="spnShirtMessage" style=""></span>
+</div>
+
+<table>
+	<tr><td valign="middle"><img src="images/push.png" onclick="sendPushMessage();" /></td>
+	<td valign="middle"><input id="txtMessage" type="text" style="font-size:38pt;width:440px;" placeholder="Enter Text Here" /></td></tr>
+</table>
+<br/>
+<span id="spnMessage" style="text-align:center;position:absolute;bottom:0px;left:0px; width:768px;font-size:32pt;"></span>
+
+
+</body>
+</html>

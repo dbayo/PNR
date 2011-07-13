@@ -1,0 +1,721 @@
+<!DOCTYPE html><!--HTML5 doctype-->
+<html>
+<!--
+Copyright (c) 2011 appMobi
+
+ Permission is hereby granted, free of charge, to any person
+ obtaining a copy of this software and associated documentation
+ files (the "Software"), to deal in the Software without
+ restriction, including without limitation the rights to use,
+ copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the
+ Software is furnished to do so, subject to the following
+ conditions:
+
+ The above copyright notice and this permission notice shall be
+ included in all copies or substantial portions of the Software.
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ OTHER DEALINGS IN THE SOFTWARE.
+-->
+    <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+
+    <title>statMobi Analytics</title>
+
+        <script type="text/javascript" charset="utf-8" src="http://localhost:58888/_appMobi/appmobi.js"></script> 
+        <script type="text/javascript" src="xui.js"></script>
+        <style type="text/css">
+            
+            /*** Prevent copy paste for all elements except text fields ****/
+            *  { -webkit-user-select:none; -webkit-tap-highlight-color:rgba(255, 255, 255, 0); }
+            input, textarea  { -webkit-user-select:text; } 
+            body { visibility:hidden;color:White;font-family:Arial;font-size:22pt; }
+			
+			img { position:absolute; }
+			
+            @-webkit-keyframes flow {
+              from 
+              {
+                -webkit-transform: translateY(0px);
+                -webkit-animation-timing-function:linear; 
+              }
+              to 
+              { 
+                -webkit-transform: translateY(20px);
+                -webkit-animation-timing-function:linear; 
+              }
+            }
+
+		    #water {
+            background-image:url('images/Water.png');
+            position: absolute;
+            top: 250px; left:0px;
+		    height:1021px;
+		    width:768px;
+		    
+            -webkit-animation-name: flow; 
+            -webkit-animation-duration: 2.5s; 
+            -webkit-animation-iteration-count: infinite; 
+    		
+		    }
+        </style>
+        
+        <script language="javascript" type="text/javascript">
+        //Define global variables here
+        var iPortraitWidth=768;
+        var iLandscapeWidth=1024;
+        var boolSelected = false;
+        var dragItemHeight=100;
+        var dragItemWidth=100;
+        var cutscenePrompt="<div style=\"width:688px;text-align:center;font-size:32pt;position:absolute;top:950px;\">Touch the Screen To Continue</div>";
+		
+        
+        //State Variables
+        //0=on the left side of the river
+        //1=on the right side of the river
+        //2=in the boat
+        var objFox=0;
+        var objGoose=0;
+        var objBeans=0;
+        var objBoat=0;
+        
+		var tweenmove=0;
+        var moveobj=1;
+        //preset element positions
+        var objFoxPositions={"leftTop":"175px","leftLeft":"-40px","rightTop":"175px","rightLeft":"440px"};
+        var objGoosePositions={"leftTop":"400px","leftLeft":"5px","rightTop":"450px","rightLeft":"550px"};
+        var objBeansPositions={"leftTop":"270px","leftLeft":"185px","rightTop":"260px","rightLeft":"550px"};
+        var objBoatPositions={"leftTop":"600px","leftLeft":"15px","rightTop":"600px","rightLeft":"300px"};
+        
+        /*Boat Movements*/
+        var AMTimer=null;
+        var Bleft=15;
+        var boolDSDirection=false;
+        var iStep=1;        //pixels
+        var iInterval=5;  //milliseconds
+        var boolSelected=false;
+        var nY,nX;
+		
+		
+        function init()
+        {	
+            document.getElementById("Boat").style.left=objBoatPositions["leftLeft"];
+        }
+    
+        var selectedElement="";
+        function selectElement(strElement,boolForceSelection)
+        { 	
+			//document.getElementById(strElement).style.zIndex=5;
+		    //console.log("selecting element",selectedElement,tweenmove,moveobj);
+		    try{
+			if(tweenmove==1||moveobj==0){return}
+			
+            if (boolForceSelection==null)
+            {
+                boolSelected=!boolSelected;
+            }
+            else
+            {
+                boolSelected=boolForceSelection;
+            }
+            
+            if (boolSelected==true)
+            {
+                selectedElement=strElement;
+            }
+            else
+            {	
+                resetElements();
+                selectedElement="";
+            }
+			}
+			catch(e){}
+			
+        }
+		
+		function resetElements()
+        { 		onboat();
+			if(tweenmove==1){return}
+			if (objFox==0){document.getElementById("Fox").style.display="block";
+				document.getElementById("Fox").src="images/Fox_Left.png";	
+				if(document.getElementById("Fox").style.left!=objFoxPositions["leftLeft"])
+						{x$('#Fox').tween({ left:'-40px', top:'175px',duration:1000 },function() {tweenmove=0});
+						tweenmove=1;
+					}
+            }
+            if(objFox==1){document.getElementById("Fox").style.display="block";
+				document.getElementById("Fox").src="images/Fox_Right.png";
+               if(document.getElementById("Fox").style.left!=objFoxPositions["rightLeft"])
+						{x$('#Fox').tween({ left:'440px',top:'175px',duration:1000 },function() {tweenmove=0});
+						tweenmove=1;
+					}
+            }
+
+            if (objGoose==0){document.getElementById("Goose").style.display="block";
+				document.getElementById("Goose").src="images/Goose_Left.png";
+                if(document.getElementById("Goose").style.left!=objGoosePositions["leftLeft"])
+						{x$('#Goose').tween({ left:'5px',top:'400px',duration:1000  },function() {tweenmove=0});
+						tweenmove=1;
+					}
+			
+            }
+            if (objGoose==1){document.getElementById("Goose").style.display="block";
+            	document.getElementById("Goose").src="images/Goose_Right.png";
+				if(document.getElementById("Goose").style.left!=objGoosePositions["rightLeft"])
+						{x$('#Goose').tween({ left:'550px',top:'450px',duration:1000  },function() {tweenmove=0});
+						tweenmove=1;
+					}
+				
+                }
+            
+
+            if (objBeans==0){document.getElementById("Beans").style.display="block";
+                if(document.getElementById("Beans").style.left!=objBeansPositions["leftLeft"])
+						{x$('#Beans').tween({ left:'185px',top:'270px',duration:1000  },function() {tweenmove=0});
+						tweenmove=1;
+					}
+				
+                }
+            if (objBeans==1){document.getElementById("Beans").style.display="block";
+               if(document.getElementById("Beans").style.left!=objBeansPositions["rightLeft"])
+						{x$('#Beans').tween({ left:'550px',top:'260px',duration:1000  },function() {tweenmove=0});
+						tweenmove=1;
+					}
+				
+				}
+        
+	    }
+		function onboat()
+		{
+			if(moveobj==1)
+			{
+				if(document.getElementById('Fox').style.display=="none")
+					{
+			    	 document.getElementById('Fox').style.left=parseInt(document.getElementById('Boat').style.left)+200 +'px';
+					 document.getElementById('Fox').style.top=document.getElementById('Boat').style.top;
+					}
+				else if(document.getElementById('Goose').style.display=="none")
+					{
+			    	 document.getElementById('Goose').style.left=parseInt(document.getElementById('Boat').style.left)+200 +'px';
+					 document.getElementById('Goose').style.top=document.getElementById('Boat').style.top;
+					}
+				else if(document.getElementById('Beans').style.display=="none")
+					{
+			    	 document.getElementById('Beans').style.left=parseInt(document.getElementById('Boat').style.left)+160 +'px';
+					 document.getElementById('Beans').style.top=document.getElementById('Boat').style.top;
+					}
+			}
+			
+		}
+		
+		//drag elements
+		function doDrag(e,element)
+        { 
+		
+		try
+            {
+            var ele=document.getElementById(element);
+			
+            
+                var nY,nX;
+                if (e.touches!=null)
+                {
+                    nY = e.touches[0].pageY;
+                    nX = e.touches[0].pageX;
+                }
+                else
+                {
+                    nY=e.clientY;
+                    nX=e.clientX;
+                }
+                
+                nX = nX - dragItemWidth; 
+                nY = nY - dragItemHeight; 
+                nY=Math.round(nY);
+                nX=Math.round(nX);
+				
+				//keep touch on screen
+				if (nY>824){nY=824;}
+				if (nX>580){nX=580;}
+				if (selectedElement=="Fox"&&nX>500){nX=500;}
+				if(nY<=0){nY=0;}
+				if(nX<=0){nX=0;}
+
+                ele.style.top=nY + "px";
+                ele.style.left=nX + "px";
+				
+				//document.getElementById("output").innerHTML=(nY+", " +nX);
+	
+	            //if we drag it to the boat, then animate the boat
+	            var oBoatz=document.getElementById("Boat");
+	            
+				if(nY>=parseInt(oBoatz.style.top) && nX>=parseInt(oBoatz.style.left) && 
+				nX<=(parseInt(oBoatz.style.left)+parseInt(oBoatz.style.width)) &&
+				nY<=(parseInt(oBoatz.style.top)+parseInt(oBoatz.style.height)) )
+				{
+				    				    
+				    if ((selectedElement=="Fox")&&(moveobj==1))
+				    {
+				        if (objBoat==objFox)  //can't put the guy in the boat if it is on the OPPOSITE SIDE!
+				        { 
+							addAnalyticsDataPoint("boatCrossing","passenger=fox");
+				            document.getElementById("Boat").src="images/Fox_Boat.png";
+				            objFox=2;
+				            ele.style.display="none";
+				            selectElement("Fox",false);
+				            animateBoat();					
+						}
+				        
+				    }
+				    else if ((selectedElement=="Goose")&&(moveobj==1))
+				    {
+				        if (objBoat==objGoose)
+				        {
+							addAnalyticsDataPoint("boatCrossing","passenger=goose");
+				            document.getElementById("Boat").src="images/Goose_Boat.png";
+				            objGoose=2;
+				            ele.style.display="none";
+				            selectElement("Goose",false);
+				            animateBoat();
+							
+				        }
+				    }
+				    else if ((selectedElement=="Beans")&&(moveobj==1))
+				    {
+				        if (objBoat==objBeans)
+				        {
+							addAnalyticsDataPoint("boatCrossing","passenger=beans");
+				            document.getElementById("Boat").src="images/Beans_Boat.png";
+				            objBeans=2;
+				            ele.style.display="none";
+				            selectElement("Beans",false);
+				            animateBoat();
+							
+				        }
+				    }
+					else{}
+				}
+            }
+            catch(e)
+            {
+                alert(e.message);
+            }
+        }
+		
+        function testState()
+        {	
+            resetElements();
+			if(objGoose==objFox && objFox!=objBoat)
+			{   
+			    addAnalyticsDataPoint("puzzleOver","state=puzzle+over&reason=fox+ate+goose");
+			    document.getElementById("divCutscene").innerHTML = "Your fox ate your goose!" + cutscenePrompt;
+			    document.getElementById("divCutscene").style.display="block";
+			}
+            else if (objGoose==objBeans&&objBeans!=objBoat)			
+			{
+			    addAnalyticsDataPoint("puzzleOver","state=puzzle+over&reason=goose+ate+beans");
+			    document.getElementById("divCutscene").innerHTML = "Your goose ate your beans!" + cutscenePrompt;
+			    document.getElementById("divCutscene").style.display="block";
+			} 
+			else if (objGoose==1 && objBeans==1 && objFox==1)
+			{
+			    addAnalyticsDataPoint("puzzleOver","state=puzzle+over&reason=success");
+			    document.getElementById("divCutscene").innerHTML = "Success!  You got all your purchases across the river." + cutscenePrompt;
+			    document.getElementById("divCutscene").style.display="block";
+			}
+        }
+		
+		function splash()
+		{
+			setTimeout(off,5000);
+		}
+		
+		function off()
+		{document.getElementById('splash').style.display='none';}
+		
+        function animateBoat()
+        {   
+            try
+            {
+		   	    var objB=window.document.getElementById("Boat");
+                if (objBoat==0)
+                {	moveobj=0;
+                    var mv = parseInt(objB.style.left) + iStep;
+                    objB.style.left=mv+"px";
+                    if (mv>=parseInt(objBoatPositions["rightLeft"]))
+                    {moveobj=1;
+				    resetElements();
+                        //we're at the right shore
+                        objBoat=1;document.getElementById("Boat").src="images/Boat_Empty.png"	;
+                        if(objFox==2){objFox=1;document.getElementById('Fox').style.display="block"}
+                        if(objGoose==2){objGoose=1;document.getElementById('Goose').style.display="block"}
+                        if(objBeans==2){objBeans=1;document.getElementById('Beans').style.display="block"}
+    					
+                        testState();
+					    selectedElement="";
+                    }
+                    else
+                    {
+                        setTimeout(animateBoat,iInterval);
+                    }
+                }
+                else
+                {	moveobj=0;
+                    var mv = parseInt(objB.style.left) - iStep;
+                    objB.style.left=mv+"px";
+                    if (mv<=parseInt(objBoatPositions["leftLeft"]))
+                    {moveobj=1;resetElements();
+                        //we're at the left shore
+                        objBoat=0;document.getElementById("Boat").src="images/Boat_Empty.png"	;
+                        if(objFox==2){objFox=0;document.getElementById('Fox').style.display="block"}
+                        if(objGoose==2){objGoose=0;document.getElementById('Goose').style.display="block"}
+                        if(objBeans==2){objBeans=0;document.getElementById('Beans').style.display="block"}
+    					
+                        testState();
+					    selectedElement="";
+                    }
+                    else
+                    {
+                        setTimeout(animateBoat,iInterval);
+                    }
+                }
+            }catch(e){}
+		}
+	
+        function updateSpriteImage(imageID,state)
+        {
+            
+        
+        
+        }
+	
+		
+// ****************************************	
+		
+		//AppMobi is ready to roll
+        function onDeviceReady()
+        {
+            try
+            {
+                //lock orientation
+                AppMobi.device.setRotateOrientation("portrait");
+                AppMobi.device.setAutoRotate(false);
+            }
+            catch(e){}
+            
+            //record startup
+            addAnalyticsDataPoint("puzzleStarting","state=starting");
+            
+            try
+            {
+                //manage power
+                AppMobi.device.managePower(true,false);
+            }
+            catch(e){}
+            
+            //show the info
+            if (AppMobi.cache.getCookie("showInstructions") == undefined)
+            {
+                AppMobi.cache.setCookie("showInstructions","shown",null);  //cookie sets only for the session
+			    addAnalyticsDataPoint("displayInstructions","state=instructionsPage");
+            }
+            else
+            {
+                document.getElementById("divInstructions").style.display="none";
+            }
+
+            //use AppMobi viewport
+            AppMobi.display.useViewport(iPortraitWidth,iLandscapeWidth);
+			
+			//handle touch/click events
+			if (AppMobi.device.uuid.indexOf("emulated") != -1)
+			{
+				//in the XDK
+				handleXDKEvents();
+			}
+			else
+			{
+				//on device
+				handleDeviceEvents();
+			}
+
+			document.getElementsByTagName("body")[0].style.visibility="visible";
+			setTimeout(function(){ AppMobi.device.hideSplashScreen(); },500);
+        }
+        
+        //initial event handler to detect when appMobi is ready to roll
+		document.addEventListener("appMobi.device.ready",onDeviceReady,false); 
+ 
+
+        //*** Webview Maintenance ********
+        /* This code prevents the webview from moving on a swipe */
+        preventDefaultScroll = function(event) {
+            // Prevent scrolling on this element
+            event.preventDefault();
+            window.scroll(0,0);
+            return false;
+        };
+        
+        window.document.addEventListener('touchmove', preventDefaultScroll, false);
+        
+        </script>
+        
+        
+        <script type="text/javascript">
+        
+        /* ANALYTICS CODE */
+
+        //this function sends an event ID, as well as an optional set of name/value pairs as a query string
+        function addAnalyticsDataPoint(eventID,queryString)
+        {
+            try
+            {
+                //add state variables to the key/value string
+                //0=on the left side of the river
+                //1=on the right side of the river
+                //2=in the boat
+                queryString = queryString + "&foxState="+objFox+"&gooseState="+objGoose+"&beansState="+objBeans+"&boatState="+objBoat;
+                
+                
+                if (queryString==null) { queryString = ""; }
+                AppMobi.analytics.logPageEvent("/application/"+eventID+".event", queryString,"","",0,"index.html"); 
+            }
+            catch(e) {}
+        }
+        
+        </script>
+        
+        <script type="text/javascript">
+        
+        /* LIVE UPDATES */
+
+        /* This event handler captures the event thrown when an update becomes available while an application is running */
+        document.addEventListener("appMobi.device.update.available",onUpdateAvailable,false); 
+        function onUpdateAvailable(evt) {
+          /* test to see if the event is appMobi.device.update.available */
+          if (evt.type == "appMobi.device.update.available") {
+            /* there is an update available *while* the application is running - decide what to do */
+            if (confirm(evt.updateMessage)==true) {
+              updateApplication();
+            }
+            else {
+              updateApplicationLater();
+            }
+          }
+        }
+
+        document.addEventListener("appMobi.device.ready",onDeviceReadyTestForUpdate,false);
+        function onDeviceReadyTestForUpdate(evt)
+        {
+          /* appMobi.updateAvailable indicates whether or not an over the air update is available or not. */
+          if (AppMobi.updateAvailable==true)
+          {
+            //there is an application update available at startup
+            if (confirm(AppMobi.updateMessage)==true) {
+              updateApplication();
+            }
+            else {
+              updateApplicationLater();
+            }
+          }
+        }
+
+        function updateApplication() {
+            /* installs an update if one is available */
+            AppMobi.device.installUpdate();
+        }
+            
+        function updateApplicationLater() {
+            /* add any code to indicate that the update has been postponed */
+            alert("The update has been postponed");
+        }
+
+        </script>
+
+<script>
+/* This snippet of code is a starting point for handling pushMobi Push Messages in 
+an appMobi application. Drop this javascript code into your application's <head>
+HTML tag to allow a user to log in and test basic push text messaging. */
+
+/*
+
+// Register for messages as soon as appMobi is loaded 
+document.addEventListener("appMobi.device.ready",registerForMessages,false);
+
+// This function will add this device to the push messaging system the first time it runs on a device 
+function registerForMessages() {
+    //Get the unique identifier of this device
+    myUserID=AppMobi.device.uuid;
+    
+    //Register the appMobi.notification.push.enable event
+    document.addEventListener("appMobi.notification.push.enable",notificationsRegistered,false);
+    
+    //If this device is already registered, just check for new notifications
+    if(AppMobi.cache.getCookie("username")===undefined)
+    {
+        try {
+			//unremark this code to register this application for push messages
+            var chosenUsername = prompt("Choose a username for push messaging", AppMobi.device.uuid);
+            var chosenPassword = prompt("Choose a password for push messaging", "password");
+            var chosenEmail    = prompt("Enter an email address for account confirmation","");
+            
+            AppMobi.cache.setCookie("username",chosenUsername);
+            AppMobi.cache.setCookie("password",chosenPassword);
+            AppMobi.cache.setCookie("email",chosenEmail);
+            AppMobi.notification.addPushUser(chosenUsername,chosenPassword,chosenEmail); 
+	    } catch(e){ alert("error adding push user: " + e.message); }
+    }
+    else
+    {
+        AppMobi.notification.checkPushUser(AppMobi.cache.getCookie("username"),AppMobi.cache.getCookie("password"));
+    }
+}
+      
+
+var clearList=[];
+
+// Callback for handling notifications 
+function updateNotifications(event)
+{
+   try
+   {
+        var myNotifications=AppMobi.notification.getNotificationList();
+        var len=myNotifications.length;
+	    
+        for(i=0;i<len;i++)
+        {
+            //get the pushMobi message data
+            msgObj=AppMobi.notification.getNotificationData(myNotifications[i]);
+
+            //display the pushMobi message as a notification if there is no data
+            if (msgObj.richhtml === undefined && msgObj.richurl === undefined)
+            {
+                AppMobi.notification.alert(msgObj.msg,"pushMobi Message","OK");
+            	 //remove the message from the server
+            	AppMobi.notification.readPushNotifications(msgObj.id);  
+            }
+            else
+            {
+                AppMobi.notification.showRichPushViewer(msgObj.id, 10, 10, 10, 10, 80, 80);
+            }
+
+
+        }
+    }
+    catch(e) { alert("error in updateNotifications: " + e.message); }
+}
+
+  document.addEventListener("appMobi.notification.push.rich.close",richViewerClosed,false);
+
+
+function richViewerClosed(event)
+{
+ 	//remove the message from the server
+    AppMobi.notification.readPushNotifications(event.id);  
+}
+
+var didcheckuser = false;
+function notificationsRegistered(event)
+{
+    if(event.success===false)
+    {
+    	if( didcheckuser == false )
+    	{
+            AppMobi.notification.checkPushUser(AppMobi.device.uuid,"password");
+            didcheckuser = true;
+        }
+        else
+        {
+        	alert("There was an error adding push notifications "+event.message);
+        }
+        return;
+    }
+
+    document.addEventListener('appMobi.notification.push.receive',updateNotifications,false);
+    document.addEventListener("appMobi.notification.push.refresh",updateNotifications,false);
+
+
+    updateNotifications();
+}
+
+*/
+
+</script>
+		
+    </head>
+    
+    <body onload="init();splash();" id="stage" style="visibility:hidden;">
+	<div id="divContainer" style="position:absolute;top:0px;left:0px;height:100%;width:100%; ">
+	    <div id="water" style="height:1021px;width:768px;"></div>
+        <img src="images/Background.png" id="ground" style="position:absolute;left:0px;top:0px;" />
+
+        <img id="Boat" onClick="if (moveobj==1){animateBoat();addAnalyticsDataPoint('boatCrossing','passenger=boat'); }" src="images/Boat_Empty.png" style="position:absolute;display:block;top:600px;width:418px;height:264px;left:15px;"/>
+        <img id="Beans" src="images/Beans.png" style="position:absolute; top:270px; left:185px;"/>
+        <img id="Goose" src="images/Goose_Left.png" style="position:absolute; top:400px; left:5px;"/>
+        <img id="Fox"   src="images/Fox_Left.png" style="position:absolute; top:175px; left:-40px;" />
+        
+        
+        <script type="text/javascript">
+		    //Event handlers
+
+			function handleDeviceEvents()
+			{
+				//Touch Events
+				document.getElementById("Fox").addEventListener("touchstart",function(e){  addAnalyticsDataPoint('foxSelected',''); selectElement("Fox");  });
+				document.getElementById("Fox").addEventListener("touchend",function(e){ addAnalyticsDataPoint('foxDeselected',''); selectElement("Fox",false); });
+				document.getElementById("Beans").addEventListener("touchstart",function(e){ addAnalyticsDataPoint('beansSelected','');  selectElement("Beans"); });
+				document.getElementById("Beans").addEventListener("touchend",function(e){  addAnalyticsDataPoint('beansUnselected',''); selectElement("Beans",false); });
+				document.getElementById("Goose").addEventListener("touchstart",function(e){ addAnalyticsDataPoint('gooseSelected','');  selectElement("Goose"); });
+				document.getElementById("Goose").addEventListener("touchend",function(e){  addAnalyticsDataPoint('gooseUnselected',''); selectElement("Goose",false); });
+				document.getElementById("divContainer").addEventListener("touchmove",function(e){  if (boolSelected==true){  doDrag(e,selectedElement);}    });
+			
+			}
+			
+			function handleXDKEvents()
+			{
+				//Mouse Events
+				document.getElementById("Fox").addEventListener("mousedown",function(e){ selectElement("Fox");   });
+				document.getElementById("Fox").addEventListener("mouseout",function(e){ selectElement("Fox",false); });
+				document.getElementById("Goose").addEventListener("mousedown",function(e){ selectElement("Goose");   });
+				document.getElementById("Goose").addEventListener("mouseout",function(e){ selectElement("Goose",false); });
+				document.getElementById("Beans").addEventListener("mousedown",function(e){ selectElement("Beans");   });
+				document.getElementById("Beans").addEventListener("mouseout",function(e){ selectElement("Beans",false); });
+				document.getElementById("divContainer").addEventListener("mousemove",function(e){  if (boolSelected==true){  doDrag(e,selectedElement);}    });
+			}
+        
+        
+        </script>
+        
+
+    </div>
+
+    <div id="DIVdebug" style="position:absolute;bottom:0px;left:0px;color:Black;font-family:Arial;font-size:12pt;"></div>
+
+        
+    <div id="divCutscene" style="font-size:24pt;background-color:Black;opacity:.75;color:White;position:absolute;top:0px;left:0px;width:688px;height:100%;padding:40px;display:none;" onclick="this.style.display='none';window.location.href = 'index.html';"></div>
+    
+    <div id="divInstructions" style="font-size:24pt;background-color:Black;opacity:.75;color:White;position:absolute;top:0px;left:0px;width:688px;height:100%;padding:40px;" onclick="this.style.display='none';">
+    <div style="width:688px;text-align:center;font-size:32pt;">Fox, Goose, Bag of Beans Puzzle</div>
+    Once upon a time a farmer went to market and purchased a fox, a goose, and a bag of beans. On his way home, the farmer came to the bank of a river and hired a boat. But in crossing the river by boat, the farmer could carry only himself and a single one of his purchases - the fox, the goose, or the bag of the beans.
+<br /><br />If left alone, the fox would eat the goose, and the goose would eat the beans.
+<br /><br />The farmer's challenge was to carry himself and his purchases to the far bank of the river, leaving each purchase intact. How did he do it?
+<br /><br />Touch the screen to continue.
+    </div>
+    
+	<div id="splash" style="background:url(images/Splash.png);display:block;position:absolute;top:0px;left:0px;height:100%;width:100%; "></div>
+
+
+    
+
+
+
+    </body>
+    
+</html>

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Furious Fowl</title>
+	<script type="text/javascript" charset="utf-8" src="http://localhost:58888/_appMobi/appmobi.js"></script> 
+
+<script type="text/javascript" >
+/* This sample function records an event ID, as well as an optional
+set of name/value pairs as a query string to the statMobi Analytics
+logs.*/
+function addAnalyticsDataPoint(eventID,queryString)
+{
+   try
+   {
+       if (queryString==null) { queryString = ""; }
+       AppMobi.analytics.logPageEvent("/application/" + eventID +
+".event", queryString, "", "", 0, "index.html");
+   }
+   catch(e) {}
+}
+</script>
+
+<script type="text/javascript" >
+
+/* This event handler captures the event thrown when an update becomes available while an application is running */
+document.addEventListener("appMobi.device.update.available",onUpdateAvailable,false); 
+function onUpdateAvailable(evt) {
+  /* test to see if the event is appMobi.device.update.available */
+  if (evt.type == "appMobi.device.update.available") {
+    /* there is an update available *while* the application is running - decide what to do */
+    if (confirm(evt.updateMessage)==true) {
+      updateApplication();
+    }
+    else {
+      updateApplicationLater();
+    }
+  }
+}
+
+document.addEventListener("appMobi.device.ready",onDeviceReadyTestForUpdate,false);
+function onDeviceReadyTestForUpdate(evt)
+{
+  /* appMobi.updateAvailable indicates whether or not an over the air update is available or not. */
+  if (AppMobi.updateAvailable==true)
+  {
+    //there is an application update available at startup
+    if (confirm(AppMobi.updateMessage)==true) {
+      updateApplication();
+    }
+    else {
+      updateApplicationLater();
+    }
+  }
+}
+
+function updateApplication() {
+    /* installs an update if one is available */
+    AppMobi.device.installUpdate();
+}
+    
+function updateApplicationLater() { }
+
+</script>
+
+<script type="text/javascript">
+/* Register for messages as soon as appMobi is loaded */
+document.addEventListener("appMobi.device.ready",registerForMessages,false);
+
+/* This function will add this device to the push messaging system the first time it runs on a device */
+function registerForMessages() {
+    //Get the unique identifier of this device
+    myUserID=AppMobi.device.uuid;
+    
+    //Register the appMobi.notification.push.enable event
+    document.addEventListener("appMobi.notification.push.enable",notificationsRegistered,false);
+    
+    //If this device is already registered, just check for new notifications
+    if(AppMobi.cache.getCookie("username")===undefined)
+    {
+        try {
+            AppMobi.cache.setCookie("username",AppMobi.device.uuid);
+            AppMobi.cache.setCookie("password","password");
+            AppMobi.cache.setCookie("email",AppMobi.device.uuid+"@appMobi.com");
+            AppMobi.notification.addPushUser(AppMobi.cache.getCookie("username"),AppMobi.cache.getCookie("password"),AppMobi.cache.getCookie("email"));                
+	    } catch(e){ alert("error adding push user: " + e.message); }
+    }
+    else
+    {
+        AppMobi.notification.checkPushUser(AppMobi.cache.getCookie("username"),AppMobi.cache.getCookie("password"));
+    }
+}
+      
+
+/* Callback for handling notifications */
+function updateNotifications(event)
+{
+   try
+   {
+        var myNotifications=AppMobi.notification.getNotificationList();
+        var len=myNotifications.length;
+	    
+        for(i=0;i<len;i++)
+        {
+            //get the pushMobi message data
+            msgObj=AppMobi.notification.getNotificationData(myNotifications[i]);
+
+            //display the pushMobi message as a notification if there is no data
+            if (msgObj.richhtml === undefined && msgObj.richurl === undefined)
+            {
+                AppMobi.notification.alert(msgObj.msg,"pushMobi Message","OK");
+            	 //remove the message from the server
+            	AppMobi.notification.readPushNotifications(msgObj.id);  
+            }
+            else
+            {
+                AppMobi.notification.showRichPushViewer(msgObj.id, 10, 10, 10, 10, 80, 80);
+            }
+        }
+    }
+    catch(e) { alert("error in updateNotifications: " + e.message); }
+}
+
+var didcheckuser = false;
+function notificationsRegistered(event)
+{
+    if(event.success===false)
+    {
+    	if( didcheckuser == false )
+    	{
+            AppMobi.notification.checkPushUser(AppMobi.device.uuid,"password");
+            didcheckuser = true;
+        }
+        else
+        {
+        	//alert("There was an error adding push notifications "+event.message);
+        }
+        return;
+    }
+
+    document.addEventListener('appMobi.notification.push.receive',updateNotifications,false);
+	document.addEventListener("appMobi.notification.push.refresh",updateNotifications,false);
+
+	updateNotifications();
+}
+
+</script>
+
+	 
+	 <script type="text/javascript" language="javascript">
+    //global variables
+	  var tmrSplash;
+	  var iPortraitWidth=768;
+      var iLandscapeWidth=1024;
+	  var lvl="";
+	  var emulated ="";
+	  
+		function gup( name )
+				{
+				  name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+				  var regexS = "[\\?&]"+name+"=([^&#]*)";
+				  var regex = new RegExp( regexS );
+				  var results = regex.exec( window.location.href );
+				  if( results == null )
+					return 0;
+				  else
+					return results[1];
+				}
+			
+		var splash=gup("splash");
+		
+		// The code above checks the url to see what value splash has.
+		// If splash has a value of zero then the app has just started up.
+		
+		
+    //Initialization function
+    function init()
+    {}
+
+    //*** Prevent Default Scrolling ******
+    preventDefaultScroll = function(event) {
+        // Prevent scrolling on this element
+        event.preventDefault();
+        window.scroll(0,0);
+        return false;
+    };
+    
+    window.document.addEventListener('touchmove', preventDefaultScroll, false);
+        
+    //*** Device Ready Code **********
+    //This event handler is fired once the AppMobi libraries are ready
+    //AppMobi is ready to roll
+    function onDeviceReady()
+	{	
+			AppMobi.display.useViewport(768,1024);
+			
+		 //lock orientation
+			AppMobi.device.setRotateOrientation("landscape");
+			AppMobi.device.setAutoRotate(false);
+			
+		   
+			//manage power
+			AppMobi.device.managePower(true,false);
+			
+
+			//hide splash screen
+			AppMobi.device.hideSplashScreen();
+
+			
+			
+		if(splash==0){
+					if (AppMobi.device.initialOrientation==90 || AppMobi.device.initialOrientation==-90)
+					{   
+					    // If the orientation of the device is in landscape when app opens, start the game
+						startGame();
+					}
+					else
+					{	
+						// This code makes the portrait splash screen show if it isn't in the XDK
+						
+						if(AppMobi.device.uuid.indexOf("emulated")==-1)
+						{document.getElementById("divSplash").style.display="block";}
+						else
+						{startGame();}
+						
+						document.addEventListener("appMobi.device.orientation.change",function(e){if (e.orientation==90||e.orientation==-90){ startGame(); document.removeEventListener("appMobi.device.orientation.change");} },false); 
+						// When the app is in landscape, we start the game.
+					}
+				
+				
+			}
+		else
+			{
+			// We make the splash screen not show if the player is returning from the game to the main menu here
+				
+			document.getElementById('splash').style.display='none';
+			document.getElementById("divSplash").style.display="none";
+			document.getElementsByTagName('body')[0].style.background= 'url(media/Background.jpg)';
+			document.getElementById("play").style.display="block";
+				}
+		if(AppMobi.device.uuid.indexOf("emulated")==-1){emulated=0;}
+		else{emulated=1;}
+	}	
+
+	function startGame()
+			{		
+				// To make the body images not flash before the splash screen shows, we don't set any background images until
+				// the splah is loaded and showing.
+					document.getElementById('splash').style.display="block"
+					tmrSplash=setTimeout("document.getElementById('divSplash').style.display='none';document.getElementById('splash').style.display='none';document.getElementById('splash').style.top='1024px';",3000);
+					document.getElementById("play").style.display="block";
+					document.getElementById("divSplash").style.display="none";
+					setTimeout("document.getElementsByTagName('body')[0].style.background= 'url(media/Background.jpg)'",2000);
+			}
+			
+	
+    //initial event handler to detect when appMobi is ready to roll
+    document.addEventListener("appMobi.device.ready",onDeviceReady,false);  
+	
+	
+	var oldTC="This sample has detected that you are not using the most up to date appMobi test container.  This sample's functionality may be compromised as a result.  Touch OK to continue. ";
+	window.addEventListener("load", function(){ if (typeof(AppMobiInit) != 'object'){ alert(oldTC); }}, false);
+
+
+    </script>
+	<style type="text/css">
+		html{
+			
+			color: #000;
+			font-family: helvetica, arial, sans-serif;
+			margin: 0;
+			padding: 0;
+			font-size: 12pt;
+		}
+		body {
+			visibility:visible;
+			color: #000;
+			font-family: helvetica, arial, sans-serif;
+			margin: 0;
+			padding: 0;
+			font-size: 12pt;
+		}
+		
+		#canvas {
+			position: absolute;
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			margin: auto;
+			border: 1px solid #555;
+		}
+		 /* Prevent copy paste for all elements except text fields */
+   *  { -webkit-user-select:none; -webkit-tap-highlight-color:rgba(255, 255, 255, 0); }
+   input, textarea  { -webkit-user-select:text; }
+ 
+	</style>
+</head>
+<body  >
+	<div id="splash" style="background:url(media/Splash.jpg);z-index:100000000;display:none;position:absolute;top:0px;left:0px;height:100%;width:100%; "></div>
+	<div id="play" onclick="this.style.display='none';document.getElementById('lvl1').style.display='block';document.getElementById('lvl2').style.display='block';document.getElementById('lvl3').style.display='block';" style="display:none;background:url(media/PlayNow.png);left:290px;top:260px;position:absolute;width:473px;height:160px;"></div>
+	<div onClick="window.location='index2.html?lvl=1&emulated='+emulated" id="lvl1"style="display:none;background:url(media/Level_1.png);left:35px;top:250px;position:absolute;width:320px;height:320px;"></div>
+	<div onClick="window.location='index2.html?lvl=2&emulated='+emulated" id="lvl2"style="display:none;background:url(media/Level_2.png);left:365px;top:250px;position:absolute;width:320px;height:320px;"></div>
+	<div onClick="window.location='index2.html?lvl=3&emulated='+emulated" id="lvl3"style="display:none;background:url(media/Level_3.png);left:695px;top:250px;position:absolute;width:320px;height:320px;"></div>
+	<div id="divSplash" style="display:none;text-align:center;width:768px;padding:10px 10px 10px 10px;color:#999;font-size:200%;"><img src="media/Splash_Porttrait.jpg"/></div>
+
+</body>
+</html>
