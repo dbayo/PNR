@@ -97,7 +97,7 @@
 
 	<div data-role="content">
 		<a href="/main" rel="external" data-role="button" data-icon="home" data-iconpos="notext">Principal</a>
-		<a href="<%= @work.id.to_s%>/load" rel="external" data-transition="pop" data-icon="gear" data-role="button" >Hoja de carga</a>
+		<a href="/loads/<%= @work.id.to_s%>" rel="external" data-transition="pop" data-icon="gear" data-role="button" >Hoja de carga</a>
 		<table>
 			<tr>
 				<td><b>Tipo de Avion:</b></td>
@@ -190,8 +190,10 @@
 	<div data-role="content">
 		<form accept-charset="UTF-8" action="/work/<%=@work.id.to_s%>/update" method="post" data-ajax="false">
 			<input type="hidden" name="pos" id="pos" value="T1P1">
-		    <input type="text" name="nameA" id="nameA" value="<%=@pos1.letras%>" style="width:30%;" />
+		    <b>Contenedor : </b><input type="text" name="nameA" id="nameA" value="<%=@pos1.letras%>" style="width:30%;" />
 		    <input type="number" name="nameB" id="nameB" value="<%=@pos1.numeros%>" style="width:60%;" /><br />
+		    <b>Peso : </b><input type="number" name="peso" id="peso" value="<%=@pos1.peso%>" style="width:60%;" /><br />
+		    <b>Volumen : </b><input type="number" name="vol" id="vol" value="<%=@pos1.volumen%>" style="width:60%;" /><br />
 		    <div><%= submit_tag 'Guardar' %></div>
 		</form>
 	</div><!-- /content -->
@@ -212,6 +214,8 @@
 			<input type="hidden" name="pos" id="pos" value="T1P2">
 		    <input type="text" name="nameA" id="nameA" value="<%=@pos2.letras%>" style="width:30%;" />
 		    <input type="number" name="nameB" id="nameB" value="<%=@pos2.numeros%>" style="width:60%;" /><br />
+		    <b>Peso : </b><input type="number" name="peso" id="peso" value="<%=@pos2.peso%>" style="width:60%;" /><br />
+		    <b>Volumen : </b><input type="number" name="vol" id="vol" value="<%=@pos2.volumen%>" style="width:60%;" /><br />
 		    <div><%= submit_tag 'Guardar' %></div>
 		</form>
 	</div><!-- /content -->
@@ -227,6 +231,8 @@
 			<input type="hidden" name="pos" id="pos" value="T1P3">
 		    <input type="text" name="nameA" id="nameA" value="<%=@pos3.letras%>" style="width:30%;" />
 		    <input type="number" name="nameB" id="nameB" value="<%=@pos3.numeros%>" style="width:60%;" /><br />
+		    <b>Peso : </b><input type="number" name="peso" id="peso" value="<%=@pos3.peso%>" style="width:60%;" /><br />
+		    <b>Volumen : </b><input type="number" name="vol" id="vol" value="<%=@pos3.volumen%>" style="width:60%;" /><br />
 		    <div><%= submit_tag 'Guardar' %></div>
 		</form>
 	</div><!-- /content -->
@@ -242,6 +248,8 @@
 			<input type="hidden" name="pos" id="pos" value="T1P4">
 		    <input type="text" name="nameA" id="nameA" value="<%=@pos4.letras%>" style="width:30%;" />
 		    <input type="number" name="nameB" id="nameB" value="<%=@pos4.numeros%>" style="width:60%;" /><br />
+		    <b>Peso : </b><input type="number" name="peso" id="peso" value="<%=@pos4.peso%>" style="width:60%;" /><br />
+		    <b>Volumen : </b><input type="number" name="vol" id="vol" value="<%=@pos4.volumen%>" style="width:60%;" /><br />
 		    <div><%= submit_tag 'Guardar' %></div>
 		</form>
 	</div><!-- /content -->
@@ -257,6 +265,8 @@
 			<input type="hidden" name="pos" id="pos" value="T1P5">
 		    <input type="text" name="nameA" id="nameA" value="<%=@pos5.letras%>" style="width:30%;" />
 		    <input type="number" name="nameB" id="nameB" value="<%=@pos5.numeros%>" style="width:60%;" /><br />
+		    <b>Peso : </b><input type="number" name="peso" id="peso" value="<%=@pos5.peso%>" style="width:60%;" /><br />
+		    <b>Volumen : </b><input type="number" name="vol" id="vol" value="<%=@pos5.volumen%>" style="width:60%;" /><br />
 		    <div><%= submit_tag 'Guardar' %></div>
 		</form>
 	</div><!-- /content -->
@@ -268,10 +278,12 @@
 	</div><!-- /header -->
 
 	<div data-role="content">
-		<form accept-charset="UTF-8" action="/work/<%=@work.id.to_s%>/update" method="post" data-ajax="false">
+		<form accept-charset="UTF-8" action="/work/<%=@work.id.to_s%>/update#T2" method="post" data-ajax="false">
 			<input type="hidden" name="pos" id="pos" value="T2P1">
 		    <input type="text" name="nameA" id="nameA" value="<%=@pos6.letras%>" style="width:30%;" />
 		    <input type="number" name="nameB" id="nameB" value="<%=@pos6.numeros%>" style="width:60%;" /><br />
+		    <b>Peso : </b><input type="number" name="peso" id="peso" value="<%=@pos6.peso%>" style="width:60%;" /><br />
+		    <b>Volumen : </b><input type="number" name="vol" id="vol" value="<%=@pos6.volumen%>" style="width:60%;" /><br />
 		    <div><%= submit_tag 'Guardar' %></div>
 		</form>
 	</div><!-- /content -->
@@ -283,10 +295,12 @@
 	</div><!-- /header -->
 
 	<div data-role="content">
-		<form accept-charset="UTF-8" action="/work/<%=@work.id.to_s%>/update" method="post" data-ajax="false">
+		<form accept-charset="UTF-8" action="/work/<%=@work.id.to_s%>/update#T2" method="post" data-ajax="false">
 			<input type="hidden" name="pos" id="pos" value="T2P2">
 		    <input type="text" name="nameA" id="nameA" value="<%=@pos7.letras%>" style="width:30%;" />
 		    <input type="number" name="nameB" id="nameB" value="<%=@pos7.numeros%>" style="width:60%;" /><br />
+		    <b>Peso : </b><input type="number" name="peso" id="peso" value="<%=@pos7.peso%>" style="width:60%;" /><br />
+		    <b>Volumen : </b><input type="number" name="vol" id="vol" value="<%=@pos7.volumen%>" style="width:60%;" /><br />
 		    <div><%= submit_tag 'Guardar' %></div>
 		</form>
 	</div><!-- /content -->
@@ -298,10 +312,12 @@
 	</div><!-- /header -->
 
 	<div data-role="content">
-		<form accept-charset="UTF-8" action="/work/<%=@work.id.to_s%>/update" method="post" data-ajax="false">
+		<form accept-charset="UTF-8" action="/work/<%=@work.id.to_s%>/update#T2" method="post" data-ajax="false">
 			<input type="hidden" name="pos" id="pos" value="T2P3">
 		    <input type="text" name="nameA" id="nameA" value="<%=@pos8.letras%>" style="width:30%;" />
 		    <input type="number" name="nameB" id="nameB" value="<%=@pos8.numeros%>" style="width:60%;" /><br />
+		    <b>Peso : </b><input type="number" name="peso" id="peso" value="<%=@pos8.peso%>" style="width:60%;" /><br />
+		    <b>Volumen : </b><input type="number" name="vol" id="vol" value="<%=@pos8.volumen%>" style="width:60%;" /><br />
 		    <div><%= submit_tag 'Guardar' %></div>
 		</form>
 	</div><!-- /content -->
@@ -313,10 +329,12 @@
 	</div><!-- /header -->
 
 	<div data-role="content">
-		<form accept-charset="UTF-8" action="/work/<%=@work.id.to_s%>/update" method="post" data-ajax="false">
+		<form accept-charset="UTF-8" action="/work/<%=@work.id.to_s%>/update#T2" method="post" data-ajax="false">
 			<input type="hidden" name="pos" id="pos" value="T2P4">
 		    <input type="text" name="nameA" id="nameA" value="<%=@pos9.letras%>" style="width:30%;" />
 		    <input type="number" name="nameB" id="nameB" value="<%=@pos9.numeros%>" style="width:60%;" /><br />
+		    <b>Peso : </b><input type="number" name="peso" id="peso" value="<%=@pos9.peso%>" style="width:60%;" /><br />
+		    <b>Volumen : </b><input type="number" name="vol" id="vol" value="<%=@pos9.volumen%>" style="width:60%;" /><br />
 		    <div><%= submit_tag 'Guardar' %></div>
 		</form>
 	</div><!-- /content -->
@@ -328,10 +346,12 @@
 	</div><!-- /header -->
 
 	<div data-role="content">
-		<form accept-charset="UTF-8" action="/work/<%=@work.id.to_s%>/update" method="post" data-ajax="false">
+		<form accept-charset="UTF-8" action="/work/<%=@work.id.to_s%>/update#T2" method="post" data-ajax="false">
 			<input type="hidden" name="pos" id="pos" value="T2P5">
 		    <input type="text" name="nameA" id="nameA" value="<%=@pos10.letras%>" style="width:30%;" />
 		    <input type="number" name="nameB" id="nameB" value="<%=@pos10.numeros%>" style="width:60%;" /><br />
+		    <b>Peso : </b><input type="number" name="peso" id="peso" value="<%=@pos10.peso%>" style="width:60%;" /><br />
+		    <b>Volumen : </b><input type="number" name="vol" id="vol" value="<%=@pos10.volumen%>" style="width:60%;" /><br />
 		    <div><%= submit_tag 'Guardar' %></div>
 		</form>
 	</div><!-- /content -->

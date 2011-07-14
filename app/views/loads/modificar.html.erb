@@ -26,6 +26,20 @@
 		    <br />
 		    <div><input name="commit" type="submit" value="Save" class="ui-btn-hidden" aria-disabled="false"></div>
 		</form>
+		<br /><hr /><br />
+
+		<div data-role="controlgroup" data-type="horizontal" style="text-align:center;">
+			<b>Tren 1 : </b>
+			<% @contenedores[0,5].each do |cont|%>
+				<a href="#" data-role="button" id="<%=cont.numeros%>" onClick="$('#nameA').val('<%=cont.letras%>'); $('#nameB').val(<%=cont.numeros%>); "><%=cont.letras%><%=cont.numeros%></a>
+			<% end %>
+		</div>
+		<div data-role="controlgroup" data-type="horizontal" style="text-align:center;">
+			<b>Tren 2 : </b>
+			<% @contenedores[5,10].each do |cont|%>
+				<a href="#" data-role="button" id="<%=cont.numeros%>" onClick="$('#nameA').val('<%=cont.letras%>'); $('#nameB').val(<%=cont.numeros%>); "><%=cont.letras%><%=cont.numeros%></a>
+			<% end %>
+		</div>
 	</div><!-- /content -->
 
 	<div style="position:absolute; bottom:0px;" data-role="footer">

@@ -118,60 +118,80 @@ class WorkController < ApplicationController
             @pos = Position.find(@work.T1P1)
             @pos.letras = params[:nameA]
             @pos.numeros = params[:nameB]
+            @pos.peso = params[:peso]
+            @pos.volumen = params[:vol]
             @pos.save
         
         elsif params[:pos] == "T1P2"
             @pos = Position.find(@work.T1P2)
             @pos.letras = params[:nameA]
             @pos.numeros = params[:nameB]
+            @pos.peso = params[:peso]
+            @pos.volumen = params[:vol]
             @pos.save
         
         elsif params[:pos] == "T1P3"
             @pos = Position.find(@work.T1P3)
             @pos.letras = params[:nameA]
             @pos.numeros = params[:nameB]
+            @pos.peso = params[:peso]
+            @pos.volumen = params[:vol]
             @pos.save
         
         elsif params[:pos] == "T1P4"
             @pos = Position.find(@work.T1P4)
             @pos.letras = params[:nameA]
             @pos.numeros = params[:nameB]
+            @pos.peso = params[:peso]
+            @pos.volumen = params[:vol]
             @pos.save
         
         elsif params[:pos] == "T1P5"
             @pos = Position.find(@work.T1P5)
             @pos.letras = params[:nameA]
             @pos.numeros = params[:nameB]
+            @pos.peso = params[:peso]
+            @pos.volumen = params[:vol]
             @pos.save
         
         elsif params[:pos] == "T2P1"
             @pos = Position.find(@work.T2P1)
             @pos.letras = params[:nameA]
             @pos.numeros = params[:nameB]
+            @pos.peso = params[:peso]
+            @pos.volumen = params[:vol]
             @pos.save
         
         elsif params[:pos] == "T2P2"
             @pos = Position.find(@work.T2P2)
             @pos.letras = params[:nameA]
             @pos.numeros = params[:nameB]
+            @pos.peso = params[:peso]
+            @pos.volumen = params[:vol]
             @pos.save
         
         elsif params[:pos] == "T2P3"
             @pos = Position.find(@work.T2P3)
             @pos.letras = params[:nameA]
             @pos.numeros = params[:nameB]
+            @pos.peso = params[:peso]
+            @pos.volumen = params[:vol]
             @pos.save
         
         elsif params[:pos] == "T2P4"
             @pos = Position.find(@work.T2P4)
             @pos.letras = params[:nameA]
             @pos.numeros = params[:nameB]
+            @pos.peso = params[:peso]
+            @pos.volumen = params[:vol]
             @pos.save
         
         elsif params[:pos] == "T2P5"
             @pos = Position.find(@work.T2P5)
             @pos.letras = params[:nameA]
             @pos.numeros = params[:nameB]
+            @pos.peso = params[:peso]
+            @pos.volumen = params[:vol]
             @pos.save
         end
         
