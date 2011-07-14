@@ -36,38 +36,43 @@
 		<div data-role="navbar">
 			<ul class="posiciones">
 				<li><a href="#fill1" id="T1P1" data-rel="dialog">
-					<%= if @work.T1P1.nil? || @work.T1P1.strip.empty?
+					<% @pos1 = Position.find(@work.T1P1) %>
+					<%= if @pos1.numeros.to_s.nil? || @pos1.numeros.to_s.empty?
 							"Vacio"
 						else
-							@work.T1P1
+							@pos1.letras.to_s + @pos1.numeros.to_s
 						end  %>
 				</a></li>
 				<li><a href="#fill2" id="T1P2" data-rel="dialog">
-					<%= if @work.T1P2.nil? || @work.T1P2.strip.empty?
+					<% @pos2 = Position.find(@work.T1P2) %>
+					<%= if @pos2.numeros.to_s.nil? || @pos2.numeros.to_s.empty?
 							"Vacio"
 						else
-							@work.T1P2
+							@pos2.letras.to_s + @pos2.numeros.to_s
 						end  %>
 				</a></li>
 				<li><a href="#fill3" id="T1P3" data-rel="dialog">
-					<%= if @work.T1P3.nil? || @work.T1P3.strip.empty?
+					<% @pos3 = Position.find(@work.T1P3) %>
+					<%= if @pos3.numeros.to_s.nil? || @pos3.numeros.to_s.empty?
 							"Vacio"
 						else
-							@work.T1P3
+							@pos3.letras.to_s + @pos3.numeros.to_s
 						end  %>
 				</a></li>
 				<li><a href="#fill4" id="T1P4" data-rel="dialog">
-					<%= if @work.T1P4.nil? || @work.T1P4.strip.empty?
+					<% @pos4 = Position.find(@work.T1P4) %>
+					<%= if @pos4.numeros.to_s.nil? || @pos4.numeros.to_s.empty?
 							"Vacio"
 						else
-							@work.T1P4
+							@pos4.letras.to_s + @pos4.numeros.to_s
 						end  %>
 				</a></li>
 				<li><a href="#fill5" id="T1P5" data-rel="dialog">
-					<%= if @work.T1P5.nil? || @work.T1P5.strip.empty?
+					<% @pos5 = Position.find(@work.T1P5) %>
+					<%= if @pos5.numeros.to_s.nil? || @pos5.numeros.to_s.empty?
 							"Vacio"
 						else
-							@work.T1P5
+							@pos5.letras.to_s + @pos5.numeros.to_s
 						end  %>
 				</a></li>
 			</ul>
@@ -123,38 +128,43 @@
 		<div data-role="navbar">
 			<ul class="posiciones">
 				<li><a href="#fill6" id="T2P1" data-rel="dialog">
-					<%= if @work.T2P1.nil? || @work.T2P1.strip.empty?
+					<% @pos6 = Position.find(@work.T2P1) %>
+					<%= if @pos6.numeros.to_s.nil? || @pos6.numeros.to_s.empty?
 							"Vacio"
 						else
-							@work.T2P1
+							@pos6.letras.to_s + @pos6.numeros.to_s
 						end  %>
 				</a></li>
 				<li><a href="#fill7" id="T2P2" data-rel="dialog">
-					<%= if @work.T2P2.nil? || @work.T2P2.strip.empty?
+					<% @pos7 = Position.find(@work.T2P2) %>
+					<%= if @pos7.numeros.to_s.nil? || @pos7.numeros.to_s.empty?
 							"Vacio"
 						else
-							@work.T2P2
+							@pos7.letras.to_s + @pos7.numeros.to_s
 						end  %>
 				</a></li>
 				<li><a href="#fill8" id="T2P3" data-rel="dialog">
-					<%= if @work.T2P3.nil? || @work.T2P3.strip.empty?
+					<% @pos8 = Position.find(@work.T2P3) %>
+					<%= if @pos8.numeros.to_s.nil? || @pos8.numeros.to_s.empty?
 							"Vacio"
 						else
-							@work.T2P3
+							@pos8.letras.to_s + @pos8.numeros.to_s
 						end  %>
 				</a></li>
 				<li><a href="#fill9" id="T2P4" data-rel="dialog">
-					<%= if @work.T2P4.nil? || @work.T2P4.strip.empty?
+					<% @pos9 = Position.find(@work.T2P4) %>
+					<%= if @pos9.numeros.to_s.nil? || @pos9.numeros.to_s.empty?
 							"Vacio"
 						else
-							@work.T2P4
+							@pos9.letras.to_s + @pos9.numeros.to_s
 						end  %>
 				</a></li>
 				<li><a href="#fill10" id="T2P5" data-rel="dialog">
-					<%= if @work.T2P5.nil? || @work.T2P5.strip.empty?
+					<% @pos10 = Position.find(@work.T2P5) %>
+					<%= if @pos10.numeros.to_s.nil? || @pos10.numeros.to_s.empty?
 							"Vacio"
 						else
-							@work.T2P5
+							@pos10.letras.to_s + @pos10.numeros.to_s
 						end  %>
 				</a></li>
 			</ul>
@@ -180,8 +190,8 @@
 	<div data-role="content">
 		<form accept-charset="UTF-8" action="/work/<%=@work.id.to_s%>/update" method="post" data-ajax="false">
 			<input type="hidden" name="pos" id="pos" value="T1P1">
-		    <input type="text" name="nameA" id="nameA" value="AAA" style="width:30%;" />
-		    <input type="number" name="nameB" id="nameB" value="" style="width:60%;" /><br />
+		    <input type="text" name="nameA" id="nameA" value="<%=@pos1.letras%>" style="width:30%;" />
+		    <input type="number" name="nameB" id="nameB" value="<%=@pos1.numeros%>" style="width:60%;" /><br />
 		    <div><%= submit_tag 'Save' %></div>
 		</form>
 	</div><!-- /content -->
@@ -200,8 +210,8 @@
 	<div data-role="content">
 		<form accept-charset="UTF-8" action="/work/<%=@work.id.to_s%>/update" method="post" data-ajax="false">
 			<input type="hidden" name="pos" id="pos" value="T1P2">
-		    <input type="text" name="nameA" id="nameA" value="AAA" style="width:30%;" />
-		    <input type="number" name="nameB" id="nameB" value="" style="width:60%;" /><br />
+		    <input type="text" name="nameA" id="nameA" value="<%=@pos2.letras%>" style="width:30%;" />
+		    <input type="number" name="nameB" id="nameB" value="<%=@pos2.numeros%>" style="width:60%;" /><br />
 		    <div><%= submit_tag 'Save' %></div>
 		</form>
 	</div><!-- /content -->
@@ -215,8 +225,8 @@
 	<div data-role="content">
 		<form accept-charset="UTF-8" action="/work/<%=@work.id.to_s%>/update" method="post" data-ajax="false">
 			<input type="hidden" name="pos" id="pos" value="T1P3">
-		    <input type="text" name="nameA" id="nameA" value="AAA" style="width:30%;" />
-		    <input type="number" name="nameB" id="nameB" value="" style="width:60%;" /><br />
+		    <input type="text" name="nameA" id="nameA" value="<%=@pos3.letras%>" style="width:30%;" />
+		    <input type="number" name="nameB" id="nameB" value="<%=@pos3.numeros%>" style="width:60%;" /><br />
 		    <div><%= submit_tag 'Save' %></div>
 		</form>
 	</div><!-- /content -->
@@ -230,8 +240,8 @@
 	<div data-role="content">
 		<form accept-charset="UTF-8" action="/work/<%=@work.id.to_s%>/update" method="post" data-ajax="false">
 			<input type="hidden" name="pos" id="pos" value="T1P4">
-		    <input type="text" name="nameA" id="nameA" value="AAA" style="width:30%;" />
-		    <input type="number" name="nameB" id="nameB" value="" style="width:60%;" /><br />
+		    <input type="text" name="nameA" id="nameA" value="<%=@pos4.letras%>" style="width:30%;" />
+		    <input type="number" name="nameB" id="nameB" value="<%=@pos4.numeros%>" style="width:60%;" /><br />
 		    <div><%= submit_tag 'Save' %></div>
 		</form>
 	</div><!-- /content -->
@@ -245,8 +255,8 @@
 	<div data-role="content">
 		<form accept-charset="UTF-8" action="/work/<%=@work.id.to_s%>/update" method="post" data-ajax="false">
 			<input type="hidden" name="pos" id="pos" value="T1P5">
-		    <input type="text" name="nameA" id="nameA" value="AAA" style="width:30%;" />
-		    <input type="number" name="nameB" id="nameB" value="" style="width:60%;" /><br />
+		    <input type="text" name="nameA" id="nameA" value="<%=@pos5.letras%>" style="width:30%;" />
+		    <input type="number" name="nameB" id="nameB" value="<%=@pos5.numeros%>" style="width:60%;" /><br />
 		    <div><%= submit_tag 'Save' %></div>
 		</form>
 	</div><!-- /content -->
@@ -260,8 +270,8 @@
 	<div data-role="content">
 		<form accept-charset="UTF-8" action="/work/<%=@work.id.to_s%>/update" method="post" data-ajax="false">
 			<input type="hidden" name="pos" id="pos" value="T2P1">
-		    <input type="text" name="nameA" id="nameA" value="AAA" style="width:30%;" />
-		    <input type="number" name="nameB" id="nameB" value="" style="width:60%;" /><br />
+		    <input type="text" name="nameA" id="nameA" value="<%=@pos6.letras%>" style="width:30%;" />
+		    <input type="number" name="nameB" id="nameB" value="<%=@pos6.numeros%>" style="width:60%;" /><br />
 		    <div><%= submit_tag 'Save' %></div>
 		</form>
 	</div><!-- /content -->
@@ -275,8 +285,8 @@
 	<div data-role="content">
 		<form accept-charset="UTF-8" action="/work/<%=@work.id.to_s%>/update" method="post" data-ajax="false">
 			<input type="hidden" name="pos" id="pos" value="T2P2">
-		    <input type="text" name="nameA" id="nameA" value="AAA" style="width:30%;" />
-		    <input type="number" name="nameB" id="nameB" value="" style="width:60%;" /><br />
+		    <input type="text" name="nameA" id="nameA" value="<%=@pos7.letras%>" style="width:30%;" />
+		    <input type="number" name="nameB" id="nameB" value="<%=@pos7.numeros%>" style="width:60%;" /><br />
 		    <div><%= submit_tag 'Save' %></div>
 		</form>
 	</div><!-- /content -->
@@ -290,8 +300,8 @@
 	<div data-role="content">
 		<form accept-charset="UTF-8" action="/work/<%=@work.id.to_s%>/update" method="post" data-ajax="false">
 			<input type="hidden" name="pos" id="pos" value="T2P3">
-		    <input type="text" name="nameA" id="nameA" value="AAA" style="width:30%;" />
-		    <input type="number" name="nameB" id="nameB" value="" style="width:60%;" /><br />
+		    <input type="text" name="nameA" id="nameA" value="<%=@pos8.letras%>" style="width:30%;" />
+		    <input type="number" name="nameB" id="nameB" value="<%=@pos8.numeros%>" style="width:60%;" /><br />
 		    <div><%= submit_tag 'Save' %></div>
 		</form>
 	</div><!-- /content -->
@@ -305,8 +315,8 @@
 	<div data-role="content">
 		<form accept-charset="UTF-8" action="/work/<%=@work.id.to_s%>/update" method="post" data-ajax="false">
 			<input type="hidden" name="pos" id="pos" value="T2P4">
-		    <input type="text" name="nameA" id="nameA" value="AAA" style="width:30%;" />
-		    <input type="number" name="nameB" id="nameB" value="" style="width:60%;" /><br />
+		    <input type="text" name="nameA" id="nameA" value="<%=@pos9.letras%>" style="width:30%;" />
+		    <input type="number" name="nameB" id="nameB" value="<%=@pos9.numeros%>" style="width:60%;" /><br />
 		    <div><%= submit_tag 'Save' %></div>
 		</form>
 	</div><!-- /content -->
@@ -320,8 +330,8 @@
 	<div data-role="content">
 		<form accept-charset="UTF-8" action="/work/<%=@work.id.to_s%>/update" method="post" data-ajax="false">
 			<input type="hidden" name="pos" id="pos" value="T2P5">
-		    <input type="text" name="nameA" id="nameA" value="AAA" style="width:30%;" />
-		    <input type="number" name="nameB" id="nameB" value="" style="width:60%;" /><br />
+		    <input type="text" name="nameA" id="nameA" value="<%=@pos10.letras%>" style="width:30%;" />
+		    <input type="number" name="nameB" id="nameB" value="<%=@pos10.numeros%>" style="width:60%;" /><br />
 		    <div><%= submit_tag 'Save' %></div>
 		</form>
 	</div><!-- /content -->

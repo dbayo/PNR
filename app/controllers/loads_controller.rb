@@ -83,7 +83,7 @@ class LoadsController < ApplicationController
   # DELETE /loads/1
   # DELETE /loads/1.xml
   def cargar
-    @load = Work.find(params[:id])
+    @load = Load.find(params[:id])
 
     respond_to do |format|
       format.html
