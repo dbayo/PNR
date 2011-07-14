@@ -1,22 +1,57 @@
-<div data-role="page" id="pos9">
+<div data-role="page" id="pos10">
 	<div data-role="header">
-		<h1>Hoja de carga</h1>
+		<h1>Hoja de carga - P10</h1>
 	</div><!-- /header -->
 
 	<div style="margin-bottom: 80px;" data-role="content">
 		<p><a href="/main" rel="external" data-role="button" data-icon="home" data-iconpos="notext">Principal</a><a href="/loads/<%= @load.id.to_s%>" rel="external" data-role="button" data-icon="gear" data-iconpos="notext">Hoja de carga</a></p>
-		<a href="#pos8" data-role="button" data-icon="arrow-l" data-iconpos="notext"></a>
-		<% if @load.P9.nil? || @load.P9.gsub(/^[a-zA-Z]*/,"").empty? %>
-			Todavia no esta definido en la hoja de carga  
-		<% else %>
-			<% @pos = Position.find(:first, :conditions => {:work_id => @load.work_id, :numeros => @load.P9.gsub(/^[a-zA-Z]*/,"").to_i}) %>
-			<% if !@pos.nil? %>
-				<%= "Tren : "+@pos.tren.to_s %>
-				<%= "Posicion : "+@pos.posicion.to_s %>
-			<% else %>
-				No esta el contenedor <%= @load.P9 %> en nuestros trenes
-			<% end %>
-		<% end %>
+		<div data-role="header" data-position="inline" data-theme="b" class="ui-bar-a ui-header" role="banner">
+			<a href="#pos9" data-role="button" data-icon="arrow-l" data-theme="c" iconpos="notext">Pos 9</a>
+			<h1>
+				<% if @load.P10.nil? || @load.P10.gsub(/^[a-zA-Z]*/,"").empty? %>
+					Todavia no esta definido en la hoja de carga  
+				<% else %>
+					<% @pos = Position.find(:first, :conditions => {:work_id => @load.work_id, :numeros => @load.P10.gsub(/^[a-zA-Z]*/,"").to_i}) %>
+					<% if !@pos.nil? %>
+						<%= "Tren : "+@pos.tren.to_s %>
+						<%= "Posicion : "+@pos.posicion.to_s %>
+					<% else %>
+						No esta el contenedor <%= @load.P10 %> en nuestros trenes
+					<% end %>
+				<% end %>
+			</h1>
+		</div>
+	</div><!-- /content -->
+
+	<div style="position:absolute; bottom:0px;" data-role="footer">
+		<h4>creado por dbayo</h4>
+	</div><!-- /footer -->
+</div>
+
+<div data-role="page" id="pos9">
+	<div data-role="header">
+		<h1>Hoja de carga - P9</h1>
+	</div><!-- /header -->
+
+	<div style="margin-bottom: 80px;" data-role="content">
+		<p><a href="/main" rel="external" data-role="button" data-icon="home" data-iconpos="notext">Principal</a><a href="/loads/<%= @load.id.to_s%>" rel="external" data-role="button" data-icon="gear" data-iconpos="notext">Hoja de carga</a></p>
+		<div data-role="header" data-position="inline" data-theme="b" class="ui-bar-a ui-header" role="banner">
+			<a href="#pos8" data-role="button" data-icon="arrow-l" data-theme="c" iconpos="notext">Pos 8</a>
+			<h1>
+				<% if @load.P9.nil? || @load.P9.gsub(/^[a-zA-Z]*/,"").empty?  %>
+					Todavia no esta definido en la hoja de carga
+				<% else %>
+					<% @pos = Position.find(:first, :conditions => {:work_id => @load.work_id, :numeros => @load.P9.gsub(/^[a-zA-Z]*/,"").to_i}) %>
+					<% if !@pos.nil? %>
+						<%= "Tren : "+@pos.tren.to_s %>
+						<%= "Posicion : "+@pos.posicion.to_s %>
+					<% else %>
+						No esta el contenedor <%= @load.P9 %> en nuestros trenes
+					<% end %>
+				<% end %>
+			</h1>
+			<a href="#pos10" data-role="button" data-icon="arrow-r" data-theme="c" iconpos="notext">Pos 10</a>
+		</div>
 	</div><!-- /content -->
 
 	<div style="position:absolute; bottom:0px;" data-role="footer">
@@ -26,24 +61,28 @@
 
 <div data-role="page" id="pos8">
 	<div data-role="header">
-		<h1>Hoja de carga</h1>
+		<h1>Hoja de carga - P8</h1>
 	</div><!-- /header -->
 
 	<div style="margin-bottom: 80px;" data-role="content">
 		<p><a href="/main" rel="external" data-role="button" data-icon="home" data-iconpos="notext">Principal</a><a href="/loads/<%= @load.id.to_s%>" rel="external" data-role="button" data-icon="gear" data-iconpos="notext">Hoja de carga</a></p>
-		<a href="#pos7" data-role="button" data-icon="arrow-l" data-iconpos="notext"></a>
-		<% if @load.P8.nil? || @load.P8.gsub(/^[a-zA-Z]*/,"").empty?  %>
-			Todavia no esta definido en la hoja de carga
-		<% else %>
-			<% @pos = Position.find(:first, :conditions => {:work_id => @load.work_id, :numeros => @load.P8.gsub(/^[a-zA-Z]*/,"").to_i}) %>
-			<% if !@pos.nil? %>
-				<%= "Tren : "+@pos.tren.to_s %>
-				<%= "Posicion : "+@pos.posicion.to_s %>
-			<% else %>
-				No esta el contenedor <%= @load.P8 %> en nuestros trenes
-			<% end %>
-		<% end %>
-		<a href="#pos9" data-role="button" data-icon="arrow-r" data-iconpos="notext"></a>
+		<div data-role="header" data-position="inline" data-theme="b" class="ui-bar-a ui-header" role="banner">
+			<a href="#pos7" data-role="button" data-icon="arrow-l" data-theme="c" iconpos="notext">Pos 7</a>
+			<h1>
+				<% if @load.P8.nil? || @load.P8.gsub(/^[a-zA-Z]*/,"").empty?  %>
+					Todavia no esta definido en la hoja de carga
+				<% else %>
+					<% @pos = Position.find(:first, :conditions => {:work_id => @load.work_id, :numeros => @load.P8.gsub(/^[a-zA-Z]*/,"").to_i}) %>
+					<% if !@pos.nil? %>
+						<%= "Tren : "+@pos.tren.to_s %>
+						<%= "Posicion : "+@pos.posicion.to_s %>
+					<% else %>
+						No esta el contenedor <%= @load.P8 %> en nuestros trenes
+					<% end %>
+				<% end %>
+			</h1>
+			<a href="#pos9" data-role="button" data-icon="arrow-r" data-theme="c" iconpos="notext">Pos 9</a>
+		</div>
 	</div><!-- /content -->
 
 	<div style="position:absolute; bottom:0px;" data-role="footer">
@@ -53,24 +92,28 @@
 
 <div data-role="page" id="pos7">
 	<div data-role="header">
-		<h1>Hoja de carga</h1>
+		<h1>Hoja de carga - P7</h1>
 	</div><!-- /header -->
 
 	<div style="margin-bottom: 80px;" data-role="content">
 		<p><a href="/main" rel="external" data-role="button" data-icon="home" data-iconpos="notext">Principal</a><a href="/loads/<%= @load.id.to_s%>" rel="external" data-role="button" data-icon="gear" data-iconpos="notext">Hoja de carga</a></p>
-		<a href="#pos6" data-role="button" data-icon="arrow-l" data-iconpos="notext"></a>
-		<% if @load.P7.nil? || @load.P7.gsub(/^[a-zA-Z]*/,"").empty?  %>
-			Todavia no esta definido en la hoja de carga
-		<% else %>
-			<% @pos = Position.find(:first, :conditions => {:work_id => @load.work_id, :numeros => @load.P7.gsub(/^[a-zA-Z]*/,"").to_i}) %>
-			<% if !@pos.nil? %>
-				<%= "Tren : "+@pos.tren.to_s %>
-				<%= "Posicion : "+@pos.posicion.to_s %>
-			<% else %>
-				No esta el contenedor <%= @load.P7 %> en nuestros trenes
-			<% end %>
-		<% end %>
-		<a href="#pos8" data-role="button" data-icon="arrow-r" data-iconpos="notext"></a>
+		<div data-role="header" data-position="inline" data-theme="b" class="ui-bar-a ui-header" role="banner">
+			<a href="#pos6" data-role="button" data-icon="arrow-l" data-theme="c" iconpos="notext">Pos 6</a>
+			<h1>
+				<% if @load.P7.nil? || @load.P7.gsub(/^[a-zA-Z]*/,"").empty?  %>
+					Todavia no esta definido en la hoja de carga
+				<% else %>
+					<% @pos = Position.find(:first, :conditions => {:work_id => @load.work_id, :numeros => @load.P7.gsub(/^[a-zA-Z]*/,"").to_i}) %>
+					<% if !@pos.nil? %>
+						<%= "Tren : "+@pos.tren.to_s %>
+						<%= "Posicion : "+@pos.posicion.to_s %>
+					<% else %>
+						No esta el contenedor <%= @load.P7 %> en nuestros trenes
+					<% end %>
+				<% end %>
+			</h1>
+			<a href="#pos8" data-role="button" data-icon="arrow-r" data-theme="c" iconpos="notext">Pos 8</a>
+		</div>
 	</div><!-- /content -->
 
 	<div style="position:absolute; bottom:0px;" data-role="footer">
@@ -79,24 +122,28 @@
 </div>
 <div data-role="page" id="pos6">
 	<div data-role="header">
-		<h1>Hoja de carga</h1>
+		<h1>Hoja de carga - P6</h1>
 	</div><!-- /header -->
 
 	<div style="margin-bottom: 80px;" data-role="content">
 		<p><a href="/main" rel="external" data-role="button" data-icon="home" data-iconpos="notext">Principal</a><a href="/loads/<%= @load.id.to_s%>" rel="external" data-role="button" data-icon="gear" data-iconpos="notext">Hoja de carga</a></p>
-		<a href="#pos5" data-role="button" data-icon="arrow-l" data-iconpos="notext"></a>
-		<% if @load.P6.nil? || @load.P6.gsub(/^[a-zA-Z]*/,"").empty?  %>
-			Todavia no esta definido en la hoja de carga
-		<% else %>
-			<% @pos = Position.find(:first, :conditions => {:work_id => @load.work_id, :numeros => @load.P6.gsub(/^[a-zA-Z]*/,"").to_i}) %>
-			<% if !@pos.nil? %>
-				<%= "Tren : "+@pos.tren.to_s %>
-				<%= "Posicion : "+@pos.posicion.to_s %>
-			<% else %>
-				No esta el contenedor <%= @load.P6 %> en nuestros trenes
-			<% end %>
-		<% end %>
-		<a href="#pos7" data-role="button" data-icon="arrow-r" data-iconpos="notext"></a>
+		<div data-role="header" data-position="inline" data-theme="b" class="ui-bar-a ui-header" role="banner">
+			<a href="#pos5" data-role="button" data-icon="arrow-l" data-theme="c" iconpos="notext">Pos 5</a>
+			<h1>
+				<% if @load.P6.nil? || @load.P6.gsub(/^[a-zA-Z]*/,"").empty?  %>
+					Todavia no esta definido en la hoja de carga
+				<% else %>
+					<% @pos = Position.find(:first, :conditions => {:work_id => @load.work_id, :numeros => @load.P6.gsub(/^[a-zA-Z]*/,"").to_i}) %>
+					<% if !@pos.nil? %>
+						<%= "Tren : "+@pos.tren.to_s %>
+						<%= "Posicion : "+@pos.posicion.to_s %>
+					<% else %>
+						No esta el contenedor <%= @load.P6 %> en nuestros trenes
+					<% end %>
+				<% end %>
+			</h1>
+			<a href="#pos7" data-role="button" data-icon="arrow-r" data-theme="c" iconpos="notext">Pos 7</a>
+		</div>
 	</div><!-- /content -->
 
 	<div style="position:absolute; bottom:0px;" data-role="footer">
@@ -105,24 +152,28 @@
 </div>
 <div data-role="page" id="pos5">
 	<div data-role="header">
-		<h1>Hoja de carga</h1>
+		<h1>Hoja de carga - P5</h1>
 	</div><!-- /header -->
 
 	<div style="margin-bottom: 80px;" data-role="content">
 		<p><a href="/main" rel="external" data-role="button" data-icon="home" data-iconpos="notext">Principal</a><a href="/loads/<%= @load.id.to_s%>" rel="external" data-role="button" data-icon="gear" data-iconpos="notext">Hoja de carga</a></p>
-		<a href="#pos4" data-role="button" data-icon="arrow-l" data-iconpos="notext"></a>
-		<% if @load.P5.nil? || @load.P5.gsub(/^[a-zA-Z]*/,"").empty?  %>
-			Todavia no esta definido en la hoja de carga
-		<% else %>
-			<% @pos = Position.find(:first, :conditions => {:work_id => @load.work_id, :numeros => @load.P5.gsub(/^[a-zA-Z]*/,"").to_i}) %>
-			<% if !@pos.nil? %>
-				<%= "Tren : "+@pos.tren.to_s %>
-				<%= "Posicion : "+@pos.posicion.to_s %>
-			<% else %>
-				No esta el contenedor <%= @load.P5 %> en nuestros trenes
-			<% end %>
-		<% end %>
-		<a href="#pos6" data-role="button" data-icon="arrow-r" data-iconpos="notext"></a>
+		<div data-role="header" data-position="inline" data-theme="b" class="ui-bar-a ui-header" role="banner">
+			<a href="#pos4" data-role="button" data-icon="arrow-l" data-theme="c" iconpos="notext">Pos 4</a>
+			<h1>
+				<% if @load.P5.nil? || @load.P5.gsub(/^[a-zA-Z]*/,"").empty?  %>
+					Todavia no esta definido en la hoja de carga
+				<% else %>
+					<% @pos = Position.find(:first, :conditions => {:work_id => @load.work_id, :numeros => @load.P5.gsub(/^[a-zA-Z]*/,"").to_i}) %>
+					<% if !@pos.nil? %>
+						<%= "Tren : "+@pos.tren.to_s %>
+						<%= "Posicion : "+@pos.posicion.to_s %>
+					<% else %>
+						No esta el contenedor <%= @load.P5 %> en nuestros trenes
+					<% end %>
+				<% end %>
+			</h1>
+			<a href="#pos6" data-role="button" data-icon="arrow-r" data-theme="c" iconpos="notext">Pos 6</a>
+		</div>
 	</div><!-- /content -->
 
 	<div style="position:absolute; bottom:0px;" data-role="footer">
@@ -131,24 +182,28 @@
 </div>
 <div data-role="page" id="pos4">
 	<div data-role="header">
-		<h1>Hoja de carga</h1>
+		<h1>Hoja de carga - P4</h1>
 	</div><!-- /header -->
 
 	<div style="margin-bottom: 80px;" data-role="content">
 		<p><a href="/main" rel="external" data-role="button" data-icon="home" data-iconpos="notext">Principal</a><a href="/loads/<%= @load.id.to_s%>" rel="external" data-role="button" data-icon="gear" data-iconpos="notext">Hoja de carga</a></p>
-		<a href="#pos3" data-role="button" data-icon="arrow-l" data-iconpos="notext"></a>
-		<% if @load.P4.nil? || @load.P4.gsub(/^[a-zA-Z]*/,"").empty?  %>
-			Todavia no esta definido en la hoja de carga
-		<% else %>
-			<% @pos = Position.find(:first, :conditions => {:work_id => @load.work_id, :numeros => @load.P4.gsub(/^[a-zA-Z]*/,"").to_i}) %>
-			<% if !@pos.nil? %>
-				<%= "Tren : "+@pos.tren.to_s %>
-				<%= "Posicion : "+@pos.posicion.to_s %>
-			<% else %>
-				No esta el contenedor <%= @load.P4 %> en nuestros trenes
-			<% end %>
-		<% end %>
-		<a href="#pos5" data-role="button" data-icon="arrow-r" data-iconpos="notext"></a>
+		<div data-role="header" data-position="inline" data-theme="b" class="ui-bar-a ui-header" role="banner">
+			<a href="#pos3" data-role="button" data-icon="arrow-l" data-theme="c" iconpos="notext">Pos 3</a>
+			<h1>
+				<% if @load.P4.nil? || @load.P4.gsub(/^[a-zA-Z]*/,"").empty?  %>
+					Todavia no esta definido en la hoja de carga
+				<% else %>
+					<% @pos = Position.find(:first, :conditions => {:work_id => @load.work_id, :numeros => @load.P4.gsub(/^[a-zA-Z]*/,"").to_i}) %>
+					<% if !@pos.nil? %>
+						<%= "Tren : "+@pos.tren.to_s %>
+						<%= "Posicion : "+@pos.posicion.to_s %>
+					<% else %>
+						No esta el contenedor <%= @load.P4 %> en nuestros trenes
+					<% end %>
+				<% end %>
+			</h1>
+			<a href="#pos5" data-role="button" data-icon="arrow-r" data-theme="c" iconpos="notext">Pos 5</a>
+		</div>
 	</div><!-- /content -->
 
 	<div style="position:absolute; bottom:0px;" data-role="footer">
@@ -157,24 +212,28 @@
 </div>
 <div data-role="page" id="pos3">
 	<div data-role="header">
-		<h1>Hoja de carga</h1>
+		<h1>Hoja de carga - P3</h1>
 	</div><!-- /header -->
 
 	<div style="margin-bottom: 80px;" data-role="content">
 		<p><a href="/main" rel="external" data-role="button" data-icon="home" data-iconpos="notext">Principal</a><a href="/loads/<%= @load.id.to_s%>" rel="external" data-role="button" data-icon="gear" data-iconpos="notext">Hoja de carga</a></p>
-		<a href="#pos2" data-role="button" data-icon="arrow-l" data-iconpos="notext"></a>
-		<% if @load.P3.nil? || @load.P3.gsub(/^[a-zA-Z]*/,"").empty?  %>
-			Todavia no esta definido en la hoja de carga
-		<% else %>
-			<% @pos = Position.find(:first, :conditions => {:work_id => @load.work_id, :numeros => @load.P3.gsub(/^[a-zA-Z]*/,"").to_i}) %>
-			<% if !@pos.nil? %>
-				<%= "Tren : "+@pos.tren.to_s %>
-				<%= "Posicion : "+@pos.posicion.to_s %>
-			<% else %>
-				No esta el contenedor <%= @load.P3 %> en nuestros trenes
-			<% end %>
-		<% end %>
-		<a href="#pos4" data-role="button" data-icon="arrow-r" data-iconpos="notext"></a>
+		<div data-role="header" data-position="inline" data-theme="b" class="ui-bar-a ui-header" role="banner">
+			<a href="#pos2" data-role="button" data-icon="arrow-l" data-theme="c" iconpos="notext">Pos 2</a>
+			<h1>
+				<% if @load.P3.nil? || @load.P3.gsub(/^[a-zA-Z]*/,"").empty?  %>
+					Todavia no esta definido en la hoja de carga
+				<% else %>
+					<% @pos = Position.find(:first, :conditions => {:work_id => @load.work_id, :numeros => @load.P3.gsub(/^[a-zA-Z]*/,"").to_i}) %>
+					<% if !@pos.nil? %>
+						<%= "Tren : "+@pos.tren.to_s %>
+						<%= "Posicion : "+@pos.posicion.to_s %>
+					<% else %>
+						No esta el contenedor <%= @load.P3 %> en nuestros trenes
+					<% end %>
+				<% end %>
+			</h1>	
+			<a href="#pos4" data-role="button" data-icon="arrow-r" data-theme="c" iconpos="notext">Pos 4</a>
+		</div>
 	</div><!-- /content -->
 
 	<div style="position:absolute; bottom:0px;" data-role="footer">
@@ -183,24 +242,28 @@
 </div>
 <div data-role="page" id="pos2">
 	<div data-role="header">
-		<h1>Hoja de carga</h1>
+		<h1>Hoja de carga - P2</h1>
 	</div><!-- /header -->
 
 	<div style="margin-bottom: 80px;" data-role="content">
 		<p><a href="/main" rel="external" data-role="button" data-icon="home" data-iconpos="notext">Principal</a><a href="/loads/<%= @load.id.to_s%>" rel="external" data-role="button" data-icon="gear" data-iconpos="notext">Hoja de carga</a></p>
-		<a href="#pos1" data-role="button" data-icon="arrow-l" data-iconpos="notext"></a>
-		<% if @load.P2.nil? || @load.P2.gsub(/^[a-zA-Z]*/,"").empty?  %>
-			Todavia no esta definido en la hoja de carga
-		<% else %>
-			<% @pos = Position.find(:first, :conditions => {:work_id => @load.work_id, :numeros => @load.P2.gsub(/^[a-zA-Z]*/,"").to_i}) %>
-			<% if !@pos.nil? %>
-				<%= "Tren : "+@pos.tren.to_s %>
-				<%= "Posicion : "+@pos.posicion.to_s %>
-			<% else %>
-				No esta el contenedor <%= @load.P2 %> en nuestros trenes
-			<% end %>
-		<% end %>
-		<a href="#pos3" data-role="button" data-icon="arrow-r" data-iconpos="notext"></a>
+		<div data-role="header" data-position="inline" data-theme="b" class="ui-bar-a ui-header" role="banner">
+			<a href="#pos1" data-role="button" data-icon="arrow-l" data-theme="c" iconpos="notext">Pos 1</a>
+			<h1>
+				<% if @load.P2.nil? || @load.P2.gsub(/^[a-zA-Z]*/,"").empty?  %>
+					Todavia no esta definido en la hoja de carga
+				<% else %>
+					<% @pos = Position.find(:first, :conditions => {:work_id => @load.work_id, :numeros => @load.P2.gsub(/^[a-zA-Z]*/,"").to_i}) %>
+					<% if !@pos.nil? %>
+						<%= "Tren : "+@pos.tren.to_s %>
+						<%= "Posicion : "+@pos.posicion.to_s %>
+					<% else %>
+						No esta el contenedor <%= @load.P2 %> en nuestros trenes
+					<% end %>
+				<% end %>
+			</h1>		
+			<a href="#pos3" data-role="button" data-icon="arrow-r" data-theme="c" iconpos="notext">Pos 3</a>
+		</div>
 	</div><!-- /content -->
 
 	<div style="position:absolute; bottom:0px;" data-role="footer">
@@ -209,26 +272,99 @@
 </div>
 <div data-role="page" id="pos1">
 	<div data-role="header">
-		<h1>Hoja de carga</h1>
+		<h1>Hoja de carga - P1</h1>
 	</div><!-- /header -->
 
 	<div style="margin-bottom: 80px;" data-role="content">
 		<p><a href="/main" rel="external" data-role="button" data-icon="home" data-iconpos="notext">Principal</a><a href="/loads/<%= @load.id.to_s%>" rel="external" data-role="button" data-icon="gear" data-iconpos="notext">Hoja de carga</a></p>
-		<% if @load.P1.nil? || @load.P1.gsub(/^[a-zA-Z]*/,"").empty?  %>
-			Todavia no esta definido en la hoja de carga
-		<% else %>
-			<% @pos = Position.find(:first, :conditions => {:work_id => @load.work_id, :numeros => @load.P1.gsub(/^[a-zA-Z]*/,"").to_i}) %>
-			<% if !@pos.nil? %>
-				<%= "Tren : "+@pos.tren.to_s %>
-				<%= "Posicion : "+@pos.posicion.to_s %>
-			<% else %>
-				No esta el contenedor <%= @load.P1 %> en nuestros trenes
-			<% end %>
-		<% end %>
-		<a href="#pos2" data-role="button" data-icon="arrow-r" data-iconpos="notext"></a>
+		<div data-role="header" data-position="inline" data-theme="b" class="ui-bar-a ui-header" role="banner">
+			<a style="visibility:hidden; "></a>
+			<h1>
+				<% if @load.P1.nil? || @load.P1.gsub(/^[a-zA-Z]*/,"").empty?  %>
+					Todavia no esta definido en la hoja de carga
+				<% else %>
+					<% @pos = Position.find(:first, :conditions => {:work_id => @load.work_id, :numeros => @load.P1.gsub(/^[a-zA-Z]*/,"").to_i}) %>
+					<% if !@pos.nil? %>
+						<%= "Tren : "+@pos.tren.to_s %>
+						<%= "Posicion : "+@pos.posicion.to_s %>
+					<% else %>
+						No esta el contenedor <%= @load.P1 %> en nuestros trenes
+					<% end %>
+				<% end %>
+			</h1>
+			<a href="#pos2" data-role="button" data-icon="arrow-r" data-theme="c" iconpos="notext">Pos 2</a>	
+		</div>
 	</div><!-- /content -->
 
 	<div style="position:absolute; bottom:0px;" data-role="footer">
 		<h4>creado por dbayo</h4>
 	</div><!-- /footer -->
 </div>
+
+<script>
+	$(document).ready(function() {
+		 $('#pos10').live('swiperight',function(event){
+	 		location.href="#pos9";
+		 });
+		 
+		 $('#pos9').live('swiperight',function(event){
+	 		location.href="#pos8";
+		 });
+		 $('#pos9').live('swipeleft',function(event){
+	 		location.href="#pos10";
+		 });
+		 
+		 $('#pos8').live('swiperight',function(event){
+	 		location.href="#pos7";
+		 });
+		 $('#pos8').live('swipeleft',function(event){
+	 		location.href="#pos9";
+		 });
+		 
+		 $('#pos7').live('swiperight',function(event){
+	 		location.href="#pos6";
+		 });
+		 $('#pos7').live('swipeleft',function(event){
+	 		location.href="#pos8";
+		 });
+		 
+		 $('#pos6').live('swiperight',function(event){
+	 		location.href="#pos5";
+		 });
+		 $('#pos6').live('swipeleft',function(event){
+	 		location.href="#pos7";
+		 });
+		 
+		 $('#pos5').live('swiperight',function(event){
+	 		location.href="#pos4";
+		 });
+		 $('#pos5').live('swipeleft',function(event){
+	 		location.href="#pos6";
+		 });
+		 
+		 $('#pos4').live('swiperight',function(event){
+	 		location.href="#pos3";
+		 });
+		 $('#pos4').live('swipeleft',function(event){
+	 		location.href="#pos5";
+		 });
+		 
+		 $('#pos3').live('swiperight',function(event){
+	 		location.href="#pos2";
+		 });
+		 $('#pos3').live('swipeleft',function(event){
+	 		location.href="#pos4";
+		 });
+		 
+		 $('#pos2').live('swiperight',function(event){
+	 		location.href="#pos1";
+		 });
+		 $('#pos2').live('swipeleft',function(event){
+	 		location.href="#pos3";
+		 });
+		 
+		 $('#pos1').live('swipeleft',function(event){
+	 		location.href="#pos2";
+		 });
+	});
+</script>
