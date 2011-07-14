@@ -8,9 +8,13 @@
 		<p><a href="/main" rel="external" data-role="button" data-icon="home" data-iconpos="notext">Principal</a><a href="/loads/<%= @load.id.to_s%>" rel="external" data-role="button" data-icon="gear" data-iconpos="notext">Hoja de carga</a></p>		
 		<form accept-charset="UTF-8" action="/loads/<%=@load.id.to_s%>/update" method="post" data-ajax="false">
 			<h1 style="text-align: center;">
-				<span style="float: left;"><input name="commit" type="submit" value="Back" onClick="document.getElementById('nextposition').value = '<%= (@position.to_i - 1).to_s%>';" rel="external" data-icon="arrow-l" data-iconpos="notext" data-role="button"></span>
+				<% if @min != @position.to_i%>
+					<span style="float: left;"><input name="commit" type="submit" value="Back" onClick="document.getElementById('nextposition').value = '<%= (@position.to_i - 1).to_s%>';" rel="external" data-icon="arrow-l" data-iconpos="notext" data-role="button"></span>
+				<% end %>
 				<span>Posicion <%= @position %></span>
-				<span style="float: right;"><input name="commit" type="submit" value="Next" onClick="document.getElementById('nextposition').value = '<%= (@position.to_i + 1).to_s%>';" rel="external" data-transition="pop" data-icon="arrow-r" data-iconpos="notext" data-role="button"</span>
+				<% if @max != @position.to_i%>
+					<span style="float: right;"><input name="commit" type="submit" value="Next" onClick="document.getElementById('nextposition').value = '<%= (@position.to_i + 1).to_s%>';" rel="external" data-transition="pop" data-icon="arrow-r" data-iconpos="notext" data-role="button"</span>
+				<% end %>
 			</h1>
 			<hr />
 			<input type="hidden" name="position" id="position" value="<%= @position %>">

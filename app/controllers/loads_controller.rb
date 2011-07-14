@@ -11,10 +11,21 @@ class LoadsController < ApplicationController
 
   def modificar
     @load = Load.find(:first, :conditions => {:work_id => params[:id] })
-        
+    @work = Work.find(params[:id])
+    
+    #Defino los limites del avion
+    @min = 1
+    if @work.plane == "737-300F"
+        @max = 9
+    elsif @work.plane == "737-400SF"
+        @max = 10
+    else
+        @max = 9
+    end
+    #END - Defino los limites del avion
+    
+    
     if params[:position].nil?
-      @work = Work.find(params[:id])
-      
       if @work.plane == "737-300F"
           @position = 9
       elsif @work.plane == "737-400SF"
