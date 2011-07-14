@@ -13,7 +13,16 @@ class LoadsController < ApplicationController
     @load = Load.find(:first, :conditions => {:work_id => params[:id] })
         
     if params[:position].nil?
-      @position = 9
+      @work = Work.find(params[:id])
+      
+      if @work.plane == "737-300F"
+          @position = 9
+      elsif @work.plane == "737-400SF"
+          @position = 10
+      else
+          @position = 9
+      end
+            
     else
       @position = params[:position].to_i
     end
