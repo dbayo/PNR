@@ -12,7 +12,7 @@ class LoadsController < ApplicationController
   def modificar
     @load = Load.find(:first, :conditions => {:work_id => params[:id] })
     @work = Work.find(params[:id])
-    @contenedores = Position.find(:all, :conditions => {:work_id => params[:id] })
+    @contenedores = Position.find(:all, :conditions => {:work_id => params[:id] }, :order => "id asc")
     
     #Defino los limites del avion
     @min = 1
